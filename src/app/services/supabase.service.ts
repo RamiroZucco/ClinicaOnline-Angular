@@ -26,17 +26,5 @@ export class SupabaseService {
   getPublicUrl(bucket: string, path: string) {
     return this.supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
   }
-
-  async insertUser(userData: any) {
-    return await this.supabase
-      .from('usuarios')
-      .insert(userData);
-  }
-
-  async updateUser(id: string, updates: any) {
-    return await this.supabase
-      .from('usuarios')
-      .update(updates)
-      .eq('id', id);
-  }
+  
 }

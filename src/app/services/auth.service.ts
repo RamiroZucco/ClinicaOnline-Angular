@@ -50,22 +50,8 @@ export class AuthService {
     localStorage.removeItem('loggedInUserRole');
   }
 
-  getUser() {
-    return this.supabaseService.supabase.auth.getUser();
-  }
-
-  getSession() {
-    return this.supabaseService.supabase.auth.getSession();
-  }
-
   getUserIdFromSignUpResult(result: any): string | null {
     return result?.data?.user?.id ?? null;
   }
-
-  async getUserByEmail(email: string) {
-    const { data, error } = await this.supabaseService.supabase.auth.admin.listUsers();
-    if (error) throw error;
-    const user = data.users.find(u => u.email === email);
-    return { data: user, error: null };
-  }
+  
 }
