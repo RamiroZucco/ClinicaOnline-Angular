@@ -1,0 +1,111 @@
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div class="registro-container">
+  <div class="registro-card">
+    <ng-container *ngIf="!tipoSeleccionado">
+      <h1 class="registro-title">Registro</h1>
+      <p class="registro-subtitle text-center">¿Cómo se desea registrar?</p>
+
+      <div class="seleccion-tipo">
+        <div class="tipo-card" (click)="seleccionarTipo('paciente')">
+          <img src="assets/cliente.png" alt="Paciente">
+          <p>Paciente</p>
+        </div>
+        <div class="tipo-card" (click)="seleccionarTipo('especialista')">
+          <img src="assets/especialista.png" alt="Especialista" class="especialista-img" />
+          <p>Especialista</p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="tipoSeleccionado">
+      <h1 class="registro-title">Registro de {{ tipoSeleccionado | titlecase }}</h1>
+
+      <form (ngSubmit)="registrar()" #registroForm="ngForm" class="registro-form">
+
+        <label>Nombre</label>
+        <input class="form-control" name="nombre" [(ngModel)]="form.nombre" required pattern="[a-zA-Z\u00f1\u00d1\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\s]{1,20}">
+        <div *ngIf="registroForm.submitted && !registroForm.controls['nombre']?.valid" class="text-danger">
+          Ingrese un nombre válido
+        </div>
+
+        <label>Apellido</label>
+        <input class="form-control" name="apellido" [(ngModel)]="form.apellido" required pattern="[a-zA-Z\u00f1\u00d1\u00e1\u00e9\u00ed\u00f3\u00fa\u00c1\u00c9\u00cd\u00d3\u00da\s]{1,20}">
+        <div *ngIf="registroForm.submitted && !registroForm.controls['apellido']?.valid" class="text-danger">
+          Ingrese un apellido válido
+        </div>
+
+        <label>Edad</label>
+        <input class="form-control" type="number" name="edad" [(ngModel)]="form.edad" required min="0" max="150">
+        <div *ngIf="registroForm.submitted && !registroForm.controls['edad']?.valid" class="text-danger">
+          Ingrese una edad válida 
+        </div>
+
+        <label>DNI</label>
+        <input class="form-control" name="dni" [(ngModel)]="form.dni" required pattern="[0-9]{7,8}">
+        <div *ngIf="registroForm.submitted && !registroForm.controls['dni']?.valid" class="text-danger">
+          Ingrese un DNI válido
+        </div>
+
+        <label>Correo electrónico</label>
+        <input class="form-control" type="email" name="email" [(ngModel)]="form.email" required>
+        <div *ngIf="registroForm.submitted && !registroForm.controls['email']?.valid" class="text-danger">
+          Ingrese un correo válido
+        </div>
+
+        <label>Contraseña</label>
+        <input class="form-control" type="password" name="password" [(ngModel)]="form.password" required minlength="6">
+        <div *ngIf="registroForm.submitted && !registroForm.controls['password']?.valid" class="text-danger">
+          La contraseña debe tener al menos 6 caracteres
+        </div>
+
+        <ng-container *ngIf="tipoSeleccionado === 'paciente'">
+          <label>Obra Social</label>
+          <input class="form-control" name="obra_social" [(ngModel)]="form.obra_social" required pattern="[a-zA-Z\u00f1\u00d1\s]{1,}">
+          <div *ngIf="registroForm.submitted && !registroForm.controls['obra_social']?.valid" class="text-danger">
+            Ingrese una obra social válida 
+          </div>
+
+          <label>Imagen 1</label>
+          <input type="file" name="imagen1" class="form-control" (change)="handleFileUpload($event, 1)">
+          <div *ngIf="registroForm.submitted && !imagen1" class="text-danger">
+            Debe seleccionar una imagen
+          </div>
+
+          <label>Imagen 2</label>
+          <input type="file" name="imagen2" class="form-control" (change)="handleFileUpload($event, 2)">
+          <div *ngIf="registroForm.submitted && !imagen2" class="text-danger">
+            Debe seleccionar una imagen
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="tipoSeleccionado === 'especialista'">
+          <label>Especialidad</label>
+          <select class="form-select" name="especialidades" [(ngModel)]="form.especialidades" (change)="mostrarCampoOtraEspecialidad = form.especialidades === 'Otra'" required>
+            <option *ngFor="let e of especialidades" [value]="e">{{ e }}</option>
+            <option value="Otra">Otra</option>
+          </select>
+          <div *ngIf="registroForm.submitted && !form.especialidades" class="text-danger">
+            Debe seleccionar una especialidad
+          </div>
+
+          <div *ngIf="mostrarCampoOtraEspecialidad">
+            <label>Ingrese otra especialidad</label>
+            <input class="form-control" name="nuevaEspecialidad" [(ngModel)]="nuevaEspecialidad">
+            <div *ngIf="registroForm.submitted && !nuevaEspecialidad.trim()" class="text-danger">
+              Ingrese una especialidad válida
+            </div>
+          </div>
+
+          <label>Imagen</label>
+          <input type="file" name="imagen1" class="form-control" (change)="handleFileUpload($event, 1)">
+          <div *ngIf="registroForm.submitted && !imagen1" class="text-danger">
+            Debe seleccionar una imagen
+          </div>
+        </ng-container>
+
+        <button type="submit" class="btn submit-btn w-100">Registrarse</button>
+      </form>
+    </ng-container>
+  </div>
+</div>

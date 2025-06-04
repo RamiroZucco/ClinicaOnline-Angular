@@ -1,0 +1,27 @@
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<header class="header-container">
+  <div class="header-content">
+    <img src="assets/logo.png" alt="Logo" class="logo-img mb-2" />
+    
+    <div class="nav-buttons mt-3">
+      <a routerLink="/" routerLinkActive="active" class="btn">Inicio</a>
+
+      <ng-container *ngIf="!userEmail">
+        <a routerLink="/login" routerLinkActive="active" class="btn">Iniciar sesión</a>
+        <a routerLink="/registro" routerLinkActive="active" class="btn">Registrarse</a>
+      </ng-container>
+
+      <ng-container *ngIf="userRole === 'admin'">
+        <a routerLink="/usuarios" routerLinkActive="active" class="btn">Usuarios</a>
+      </ng-container>
+    </div>
+
+    <div *ngIf="userEmail" class="user-area d-flex align-items-center">
+      <span class="welcome-text me-3">{{ userEmail }}</span>
+      <button class="btn logout-btn" (click)="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+</header>
+
+<router-outlet></router-outlet>
