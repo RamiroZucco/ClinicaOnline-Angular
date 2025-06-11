@@ -53,5 +53,13 @@ export class AuthService {
   getUserIdFromSignUpResult(result: any): string | null {
     return result?.data?.user?.id ?? null;
   }
+
+  getUser() {
+    return this.supabaseService.supabase.auth.getUser();
+  }
+
+  getSession() {
+    return this.supabaseService.supabase.auth.getSession();
+  }
   
 }

@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:host {
+  display: block;
+  background: linear-gradient(to bottom right, #e8eaf6, #ede7f6);
+  font-family: 'Montserrat', sans-serif;
+  color: #090f52;
+  padding: 2rem;
+  padding-top: 230px;
+  min-height: 100vh;
+}
+
+.turnos-admin-container {
+  max-width: 700px;
+  margin: 0 auto 3rem auto;
+}
+
+.turnos-admin-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+  margin-top: 1rem;
+}
+
+.turnos-title {
+  text-align: center;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #090f52;
+  margin-bottom: 1.7rem;
+}
+
+.turnos-busqueda {
+  width: 93%;
+  margin-bottom: 1.5rem;
+  border-radius: 15px;
+  border: 1px solid #090f52;
+  font-size: 1.04rem;
+  padding: 0.8rem 1.2rem;
+}
+
+.no-turnos-admin {
+  text-align: center;
+  color: #8c8c8c;
+  margin: 2rem 0;
+  font-size: 1.11rem;
+}
+
+.turno-admin-item {
+  background-color: #f5f5f5;
+  border-left: 6px solid #090f52;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(81,45,168,0.09);
+  padding: 1.3rem 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.turno-admin-item p {
+  font-size: 1.09rem;
+  margin-bottom: 0.7rem;
+  font-weight: 500;
+}
+
+.turno-admin-item strong {
+  color: #183058;
+  font-weight: 700;
+}
+
+.turno-admin-acciones {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.btn-turno-admin {
+  border: none;
+  border-radius: 25px;
+  padding: 0.52rem 1.3rem;
+  font-size: 1rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(9,15,82,0.08);
+  transition: filter 0.2s, transform 0.2s;
+  cursor: pointer;
+  outline: none;
+  min-width: 120px;
+}
+.btn-turno-admin:hover {
+  filter: brightness(1.09);
+  transform: scale(1.04);
+}
+
+.btn-turno-admin.naranja { background: linear-gradient(135deg, #ffa726, #fbc02d); color: #fff; }
+.btn-turno-admin.rojo { background: linear-gradient(135deg, #c62828, #ef5350); color: #fff; }
+.btn-turno-admin.violeta { background: linear-gradient(135deg, #090f52, #6b7788); color: #fff; }
+
+.estado-pendiente { color: #ff8f00; font-weight: 700; }
+.estado-aceptado { color: #43a047; font-weight: 700; }
+.estado-realizado { color: #1a237e; font-weight: 700; }
+.estado-cancelado { color: #c62828; font-weight: 700; }
+.estado-rechazado { color: #c62828; font-weight: 700; }
+
+.turno-cancelar-form {
+  margin-top: 1.3rem;
+  background: #f1f5fc;
+  border-radius: 12px;
+  padding: 1rem 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.turno-cancelar-form textarea.form-control {
+  border-radius: 10px;
+  border: 1px solid #bdbdbd;
+  font-size: 1rem;
+  margin-bottom: 0.7rem;
+  resize: none;
+  min-height: 45px;
+}
+.turno-cancelar-btns {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.text-exito-turno {
+  color: #257a29;
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+.text-error-turno {
+  color: #c62828;
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+@media (max-width: 700px) {
+  .turnos-admin-card, .turnos-admin-container {
+    padding: 0 0.6rem;
+  }
+  .turnos-admin-card {
+    padding: 1.5rem 1rem;
+  }
+  .turno-admin-item {
+    padding: 1rem 0.6rem;
+  }
+}
+
+.turno-cancelar-form textarea.form-control {
+  border-radius: 12px;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #090f52;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(81,45,168,0.04);
+  resize: none;
+  min-height: 45px;
+  margin-bottom: 0.7rem;
+  transition: border-color 0.22s, box-shadow 0.2s;
+}
+.turno-cancelar-form textarea.form-control:focus {
+  border-color: #090f52;
+  outline: none;
+  box-shadow: 0 0 0 0.13rem rgba(9, 15, 82, 0.11);
+}

@@ -1,0 +1,63 @@
+<div class="turnos-admin-container">
+  <div class="turnos-admin-card">
+    <h2 class="turnos-title">Turnos de la Clínica</h2>
+
+    <input
+      [(ngModel)]="filtro"
+      (input)="aplicarFiltro()"
+      class="form-control turnos-busqueda"
+      placeholder="Buscar especialidad o especialista"
+    />
+
+    <div *ngIf="filtrado.length > 0; else sinTurnos">
+      <div *ngFor="let turno of filtrado" class="turno-admin-item">
+        <p><strong>Especialidad:</strong> {{ turno.especialidad }}</p>
+        <p><strong>Especialista:</strong>
+          {{ turno.especialista?.nombre || 'Sin nombre' }}
+          {{ turno.especialista?.apellido || '' }}
+          <span *ngIf="turno.especialista?.especialidades">({{ turno.especialista.especialidades }})</span>
+        </p>
+        <p><strong>Paciente:</strong>
+          {{ turno.paciente?.nombre || 'Sin nombre' }}
+          {{ turno.paciente?.apellido || '' }}
+        </p>
+        <p><strong>Fecha:</strong>
+          {{ turno.fecha | date: 'fullDate' }} - {{ turno.hora }}
+        </p>
+        <p>
+          <strong>Estado:</strong>
+          <span [ngClass]="{
+            'estado-pendiente': turno.estado === 'pendiente',
+            'estado-aceptado': turno.estado === 'aceptado',
+            'estado-realizado': turno.estado === 'realizado',
+            'estado-cancelado': turno.estado === 'cancelado',
+            'estado-rechazado': turno.estado === 'rechazado'
+          }">{{ turno.estado | titlecase }}</span>
+        </p>
+
+        <div class="turno-admin-acciones">
+          <button
+            *ngIf="puedeCancelar(turno) && turnoACancelar !== turno"
+            class="btn-turno-admin rojo"
+            (click)="mostrarFormularioCancelacion(turno)">
+            Cancelar
+          </button>
+        </div>
+
+        <div *ngIf="turnoACancelar === turno" class="turno-cancelar-form">
+          <textarea [(ngModel)]="motivoCancelacion" rows="2" placeholder="Motivo de cancelación" class="form-control"></textarea>
+          <div class="turno-cancelar-btns">
+            <button class="btn-turno-admin rojo" (click)="confirmarCancelacion()">Confirmar</button>
+            <button class="btn-turno-admin violeta" (click)="cancelarFormulario()">Cerrar</button>
+          </div>
+          <div *ngIf="mensajeCancelacion" class="text-exito-turno">{{ mensajeCancelacion }}</div>
+          <div *ngIf="errorCancelacion" class="text-error-turno">{{ errorCancelacion }}</div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #sinTurnos>
+      <p class="no-turnos-admin">No hay turnos disponibles.</p>
+    </ng-template>
+  </div>
+</div>

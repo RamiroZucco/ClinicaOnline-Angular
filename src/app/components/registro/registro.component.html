@@ -80,21 +80,37 @@
         </ng-container>
 
         <ng-container *ngIf="tipoSeleccionado === 'especialista'">
-          <label>Especialidad</label>
-          <select class="form-select" name="especialidades" [(ngModel)]="form.especialidades" (change)="mostrarCampoOtraEspecialidad = form.especialidades === 'Otra'" required>
-            <option *ngFor="let e of especialidades" [value]="e">{{ e }}</option>
-            <option value="Otra">Otra</option>
-          </select>
-          <div *ngIf="registroForm.submitted && !form.especialidades" class="text-danger">
-            Debe seleccionar una especialidad
-          </div>
-
-          <div *ngIf="mostrarCampoOtraEspecialidad">
-            <label>Ingrese otra especialidad</label>
-            <input class="form-control" name="nuevaEspecialidad" [(ngModel)]="nuevaEspecialidad">
-            <div *ngIf="registroForm.submitted && !nuevaEspecialidad.trim()" class="text-danger">
-              Ingrese una especialidad válida
+          <label>Especialidades</label>
+          <div class="mb-2">
+            <div *ngFor="let e of especialidadesDisponibles" class="form-check">
+              <input class="form-check-input" type="checkbox"
+                [value]="e"
+                [checked]="especialidadesSeleccionadas.includes(e)"
+                (change)="toggleEspecialidad(e, $event)"
+                id="especialidad-{{e}}">
+              <label class="form-check-label" [for]="'especialidad-' + e">
+                {{ e }}
+              </label>
             </div>
+            <div class="form-check mt-1">
+              <input class="form-check-input" type="checkbox"
+                id="otraEspecialidad"
+                [checked]="mostrarCampoOtraEspecialidad"
+                (change)="toggleOtraEspecialidad($event)">
+              <label class="form-check-label" for="otraEspecialidad">
+                Otra especialidad
+              </label>
+            </div>
+            <div *ngIf="mostrarCampoOtraEspecialidad">
+              <label>Ingrese otra especialidad</label>
+              <input class="form-control" name="nuevaEspecialidad" [(ngModel)]="nuevaEspecialidad">
+              <div *ngIf="registroForm.submitted && !nuevaEspecialidad.trim()" class="text-danger">
+                Ingrese una especialidad válida
+              </div>
+            </div>
+          </div>
+          <div *ngIf="registroForm.submitted && (especialidadesSeleccionadas.length === 0 && !nuevaEspecialidad.trim())" class="text-danger">
+            Debe seleccionar al menos una especialidad
           </div>
 
           <label>Imagen</label>
@@ -103,6 +119,22 @@
             Debe seleccionar una imagen
           </div>
         </ng-container>
+
+        <div class="captcha-section">
+          <label>Verificación</label>
+          <div class="captcha-flex">
+            <span class="captcha-badge">{{ captchaTexto }}</span>
+            <input class="form-control" placeholder="Escriba el texto"
+                  [(ngModel)]="captchaIngresado"
+                  name="captcha"
+                  required
+                  autocomplete="off">
+            <button type="button" class="btn-refresh" (click)="generarCaptcha()" title="Actualizar captcha">
+              &#x21bb;
+            </button>
+          </div>
+          <small class="text-muted">Ingrese el texto idéntico a como lo ve</small>
+        </div>
 
         <button type="submit" class="btn submit-btn w-100">Registrarse</button>
       </form>

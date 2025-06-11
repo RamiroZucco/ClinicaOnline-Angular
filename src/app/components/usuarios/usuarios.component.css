@@ -316,3 +316,44 @@ input, select {
   font-size: 0.9rem;
   margin-top: 0.2rem;
 }
+
+.captcha-section {
+  margin-top: 0.8rem;
+  margin-bottom: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.captcha-flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.captcha-badge {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.15rem;
+  background: linear-gradient(135deg, #090f52, #6b7788);
+  color: #fff;
+  padding: 0.5rem 1.3rem;
+  border-radius: 9px;
+  letter-spacing: 4px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.btn-refresh {
+  border: none;
+  background: none;
+  font-size: 1.4rem;
+  color: #090f52;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: color 0.2s;
+  padding: 0.2rem 0.4rem;
+}
+.btn-refresh:hover {
+  color: #43a047;
+  transform: rotate(20deg) scale(1.15);
+}

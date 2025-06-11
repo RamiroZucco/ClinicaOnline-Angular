@@ -1,0 +1,21 @@
+<div class="perfil-container">
+  <div class="perfil-card">
+    <h2 class="perfil-title">Mi Perfil</h2>
+    <ng-container *ngIf="usuario">
+      <div class="perfil-datos">
+        <div>
+          <p><strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellido }}</p>
+          <p><strong>Edad:</strong> {{ usuario.edad }}</p>
+          <p><strong>DNI:</strong> {{ usuario.dni }}</p>
+          <p><strong>Rol:</strong> {{ usuario.rol | titlecase }}</p>
+          <p *ngIf="usuario.rol === 'paciente'"><strong>Obra Social:</strong> {{ usuario.obra_social }}</p>
+          <p *ngIf="usuario.rol === 'especialista'"><strong>Especialidades:</strong> {{ usuario.especialidades }}</p>
+        </div>
+        <div class="perfil-imagenes">
+          <img *ngIf="usuario.imagen1" [src]="usuario.imagen1" class="perfil-img" alt="Imagen de perfil">
+          <img *ngIf="usuario.imagen2" [src]="usuario.imagen2" class="perfil-img" alt="Imagen secundaria">
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

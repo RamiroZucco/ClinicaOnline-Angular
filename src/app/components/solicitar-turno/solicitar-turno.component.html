@@ -1,0 +1,66 @@
+<div class="solicitar-turno-container">
+  <div class="solicitar-turno-card">
+    <h2 class="solicitar-title">Solicitar Turno</h2>
+
+    <div class="form-section" *ngIf="!especialidadSeleccionada">
+      <label class="form-label">Seleccionar Especialidad</label>
+      <div class="especialidades-rect-grid">
+        <button *ngFor="let esp of especialidades"
+          class="btn-rect especialidad"
+          [class.seleccionado]="especialidadSeleccionada === esp.nombre"
+          (click)="seleccionarEspecialidad(esp.nombre)">
+          <img [src]="esp.img" alt="{{ esp.nombre }}" />
+          <div class="nombre-esp">{{ esp.nombre }}</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-section" *ngIf="especialidadSeleccionada && !especialistaSeleccionado">
+      <label class="form-label">Seleccionar Profesional</label>
+      <div class="profesionales-rect-grid">
+        <button *ngFor="let prof of especialistasFiltrados"
+          class="btn-rect profesional"
+          [class.seleccionado]="especialistaSeleccionado?.id === prof.id"
+          (click)="seleccionarProfesional(prof)">
+          <div class="nombre-prof">{{ prof.nombre }} {{ prof.apellido }}</div>
+          <img [src]="prof.imagen1 || 'assets/default.jpg'" alt="{{ prof.nombre }}" />
+        </button>
+      </div>
+      <button class="volver-btn" (click)="especialidadSeleccionada = ''; especialistaSeleccionado = null;">Volver</button>
+    </div>
+
+    <div class="form-section" *ngIf="especialistaSeleccionado && !diaSeleccionado">
+      <label class="form-label">Seleccionar Día</label>
+      <div class="dias-rect-grid">
+        <button *ngFor="let dia of diasDisponibles"
+          class="btn-rect dia"
+          [class.seleccionado]="diaSeleccionado === dia.fecha"
+          (click)="seleccionarDia(dia.fecha, dia.diaSemana)">
+          <div>{{ dia.label }}</div>
+        </button>
+      </div>
+      <button class="volver-btn" (click)="especialistaSeleccionado = null; diaSeleccionado = ''; horarioSeleccionado = null;">Volver</button>
+    </div>
+
+    <div class="form-section" *ngIf="diaSeleccionado">
+      <label class="form-label">Seleccionar Horario</label>
+      <div class="horarios-rect-grid">
+        <button *ngFor="let h of horariosDisponibles"
+          class="btn-rect horario"
+          [class.seleccionado]="horarioSeleccionado === h"
+          [class.disabled]="h.ocupado"
+          [disabled]="h.ocupado"
+          (click)="seleccionarHorario(h)">
+          <div>{{ h.hora }}</div>
+        </button>
+      </div>
+      <button class="volver-btn" (click)="diaSeleccionado = ''; horarioSeleccionado = null;">Volver</button>
+    </div>
+
+    <div class="alert-turno text-center my-3" *ngIf="mensaje">{{ mensaje }}</div>
+
+    <div class="btn-confirmar-turno" *ngIf="horarioSeleccionado">
+      <button class="btn-turno-confirmar" (click)="solicitarTurno()">Confirmar Turno</button>
+    </div>
+  </div>
+</div>

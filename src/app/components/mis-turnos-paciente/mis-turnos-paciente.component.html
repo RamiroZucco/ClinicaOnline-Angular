@@ -1,0 +1,72 @@
+<div class="turnos-paciente-container">
+  <div class="turnos-paciente-card">
+    <h2 class="turnos-title">Mis Turnos</h2>
+
+    <div *ngIf="mensaje" class="alert-info-turno text-center">{{ mensaje }}</div>
+
+    <input
+      [(ngModel)]="inputBusqueda"
+      (input)="filtrar()"
+      placeholder="Buscar especialidad o especialista"
+      class="form-control turnos-busqueda"
+    />
+
+    <div *ngIf="filtrado.length === 0" class="no-turnos">
+      No hay turnos para mostrar.
+    </div>
+
+    <div *ngFor="let turno of filtrado" class="turno-item">
+      <div class="turno-datos">
+        <p><strong>Especialidad:</strong> {{ turno.especialidad }}</p>
+        <p><strong>Especialista:</strong> {{ turno.especialista?.nombre }} {{ turno.especialista?.apellido }}</p>
+        <p><strong>Fecha:</strong> {{ turno.fecha | date: 'fullDate' }} - {{ turno.hora }}</p>
+        <p>
+          <strong>Estado:</strong>
+          <span [ngClass]="{
+            'estado-pendiente': turno.estado === 'pendiente',
+            'estado-aceptado': turno.estado === 'aceptado',
+            'estado-realizado': turno.estado === 'realizado',
+            'estado-cancelado': turno.estado === 'cancelado',
+            'estado-rechazado': turno.estado === 'rechazado'
+          }">{{ turno.estado | titlecase }}</span>
+        </p>
+      </div>
+
+      <div class="turno-acciones">
+        <button *ngIf="puedeCancelar(turno)" class="btn-turno rojo mt-1" (click)="iniciarCancelacion(turno)">Cancelar</button>
+        <button *ngIf="puedeVerResena(turno) && turno.estado === 'realizado'"
+                class="btn-turno celeste"
+                (click)="verResena(turno)">
+          Ver Reseña
+        </button>
+        <button *ngIf="puedeEncuestar(turno)" class="btn-turno verde" (click)="enviarEncuesta(turno)">Completar Encuesta</button>
+        <button *ngIf="puedeCalificar(turno)" class="btn-turno violeta" (click)="calificar(turno)">Calificar</button>
+      </div>
+
+      <div *ngIf="turnoParaCancelar === turno" class="acciones-extra">
+        <input [(ngModel)]="motivoCancelacion" class="form-control" placeholder="Motivo de cancelación" />
+        <button class="btn-turno rojo mt-1" (click)="confirmarCancelacion()">Confirmar Cancelación</button>
+      </div>
+
+      <div *ngIf="turnoResenaVisible === turno" class="resena-box">
+        <div class="resena-title">Reseña</div>
+        <div class="resena-content">
+          {{ turno.comentario_especialista || 'Sin comentarios del especialista.' }}
+        </div>
+      </div>
+
+      <div *ngIf="turnoParaEncuesta === turno" class="acciones-extra">
+        <input [(ngModel)]="encuesta" class="form-control" placeholder="Tu opinión del turno" />
+        <button class="btn-turno verde mt-1" (click)="confirmarEncuesta()">Enviar Encuesta</button>
+      </div>
+
+      <div *ngIf="turnoParaCalificar === turno" class="acciones-extra">
+        <select [(ngModel)]="calificacion" class="form-control">
+          <option [value]="-1">Seleccionar calificación</option>
+          <option *ngFor="let n of [1,2,3,4,5]" [value]="n">{{ n }}</option>
+        </select>
+        <button class="btn-turno violeta mt-1" (click)="confirmarCalificacion()">Enviar Calificación</button>
+      </div>
+    </div>
+  </div>
+</div>

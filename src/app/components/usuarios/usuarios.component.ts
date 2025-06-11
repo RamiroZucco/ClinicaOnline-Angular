@@ -23,9 +23,13 @@ export class UsuariosComponent implements OnInit {
   imagen2: File | null = null;
   mensaje: string = '';
   error: string = '';
-  especialidades = ['Pediatría', 'Oftalmología', 'Cardiología', 'Traumatología', 'Dermatología'];
+  especialidadesDisponibles = ['Pediatría', 'Oftalmología', 'Cardiología', 'Traumatología', 'Dermatología'];
   mostrarCampoOtraEspecialidad = false;
   nuevaEspecialidad = '';
+  especialidadesSeleccionadas: string[] = [];
+  captchaTexto: string = '';
+  captchaIngresado: string = '';
+  
 
   constructor(
     private userService: UserService,
@@ -35,11 +39,37 @@ export class UsuariosComponent implements OnInit {
 
   async ngOnInit() {
     const rol = localStorage.getItem('loggedInUserRole');
+    this.generarCaptcha();
     if (rol !== 'admin') {
       this.router.navigateByUrl('/usuarios');
       return;
     }
     await this.cargarUsuarios();
+    
+  }
+
+  generarCaptcha() {
+    const posibles = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    this.captchaTexto = Array.from({ length: 5 }, () => posibles[Math.floor(Math.random() * posibles.length)]).join('');
+  }
+
+  toggleEspecialidad(especialidad: string, event: any) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      if (!this.especialidadesSeleccionadas.includes(especialidad)) {
+        this.especialidadesSeleccionadas.push(especialidad);
+      }
+    } else {
+      this.especialidadesSeleccionadas = this.especialidadesSeleccionadas.filter(e => e !== especialidad);
+    }
+  }
+
+  toggleOtraEspecialidad(event: any) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.mostrarCampoOtraEspecialidad = checked;
+    if (!checked) {
+      this.nuevaEspecialidad = '';
+    }
   }
 
   async cargarUsuarios() {
@@ -81,6 +111,7 @@ export class UsuariosComponent implements OnInit {
     this.mensaje = '';
     this.mostrarCampoOtraEspecialidad = false;
     this.nuevaEspecialidad = '';
+    this.especialidadesSeleccionadas = [];
   }
 
   cancelarRegistro() {
@@ -102,6 +133,13 @@ export class UsuariosComponent implements OnInit {
     this.mensaje = '';
     this.error = '';
 
+    if (this.captchaIngresado.trim().toUpperCase() !== this.captchaTexto) {
+      this.error = 'Captcha incorrecto. Intente nuevamente.';
+      this.generarCaptcha();
+      this.captchaIngresado = '';
+      return;
+    }
+
     if (this.tipoSeleccionado === 'paciente' && (!this.imagen1 || !this.imagen2)) {
       this.error = 'Debe seleccionar ambas imágenes';
       return;
@@ -111,19 +149,28 @@ export class UsuariosComponent implements OnInit {
       return;
     }
 
+    if (this.tipoSeleccionado === 'especialista') {
+      let especialidadesFinal: string[] = [...this.especialidadesSeleccionadas];
+
+      if (this.mostrarCampoOtraEspecialidad && this.nuevaEspecialidad.trim()) {
+        especialidadesFinal.push(this.nuevaEspecialidad.trim());
+        if (!this.especialidadesDisponibles.includes(this.nuevaEspecialidad.trim())) {
+          this.especialidadesDisponibles.push(this.nuevaEspecialidad.trim());
+        }
+      }
+      if (especialidadesFinal.length === 0) {
+        this.error = 'Debe seleccionar al menos una especialidad';
+        return;
+      }
+      this.form.especialidades = especialidadesFinal.join(', ');
+    }
+
     try {
       const result = await this.authService.signUp(this.form.email, this.form.password);
       if (result.error) throw result.error;
 
       const id = this.authService.getUserIdFromSignUpResult(result);
       if (!id) throw new Error('No se pudo obtener el ID del usuario');
-
-      if (this.mostrarCampoOtraEspecialidad && this.nuevaEspecialidad.trim()) {
-        this.form.especialidades = this.nuevaEspecialidad.trim();
-        if (!this.especialidades.includes(this.nuevaEspecialidad.trim())) {
-          this.especialidades.push(this.nuevaEspecialidad.trim());
-        }
-      }
 
       const { password, ...rest } = this.form;
       const userData = {

@@ -59,7 +59,7 @@
 .login-buttons {
   display: flex;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .btn.submit {
@@ -164,4 +164,26 @@
 
 .quick-btn:hover {
   transform: scale(1.1);
+}
+
+.login-link-registro {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.4rem;
+}
+
+.router-link {
+  color: #090f52;
+  font-size: 0.99rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.18s;
+}
+
+.router-link:hover {
+  color: #5f3dc4; 
+  text-decoration: underline;
 }

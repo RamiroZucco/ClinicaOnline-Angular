@@ -1,0 +1,299 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:host {
+  display: block;
+  background: linear-gradient(to bottom right, #e8eaf6, #ede7f6);
+  font-family: 'Montserrat', sans-serif;
+  color: #090f52;
+  padding: 2rem;
+  padding-top: 230px;
+  min-height: 100vh;
+}
+
+.solicitar-turno-container {
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+}
+
+.solicitar-turno-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.10);
+  margin-top: 1rem;
+}
+
+.solicitar-title {
+  text-align: center;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #090f52;
+  margin-bottom: 2.2rem;
+}
+
+.form-section {
+  margin-bottom: 2.2rem;
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.especialistas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+}
+
+.card-profesional {
+  width: 170px;
+  height: 185px;
+  border: 2.5px solid #090f52;
+  border-radius: 16px;
+  padding: 12px 7px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+  margin-top: 1rem;
+}
+.card-profesional img {
+  width: 105px;
+  height: 105px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 9px;
+  border: 2px solid #e3e3f0;
+  background: #f9f9ff;
+}
+.card-profesional span {
+  font-size: 14px;
+  font-weight: 600;
+}
+.card-profesional.seleccionado, .card-profesional:hover {
+  border-color: #43a047;
+  background-color: #e6f9f0;
+  transform: scale(1.05);
+}
+
+.especialidades-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+}
+
+.card-especialidad {
+  width: 98px;
+  height: 98px;
+  border-radius: 50%;
+  border: 2px solid #090f52;
+  padding: 12px 6px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+}
+.card-especialidad img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  margin-bottom: 5px;
+}
+.card-especialidad span {
+  font-size: 12px;
+  font-weight: 500;
+}
+.card-especialidad.seleccionado, .card-especialidad:hover {
+  border-color: #43a047;
+  background-color: #e6f9f0;
+  transform: scale(1.05);
+}
+
+.form-control {
+  border-radius: 12px;
+  padding: 0.65rem 1.1rem;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+.turnos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-top: 0.7rem;
+}
+
+.turno-disponible {
+  border-radius: 12px;
+  background: #f8f9fa;
+  border: 1.5px solid #bbb;
+  padding: 0.9rem 1rem;
+  font-size: 1.05rem;
+  color: #333;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.22s;
+  box-shadow: 0 2px 7px rgba(81,45,168,0.07);
+  outline: none;
+  border-left: 5px solid #43a047;
+}
+.turno-disponible.active, .turno-disponible:hover:not(.disabled) {
+  background: linear-gradient(90deg, #c8e6c9 60%, #e6f9f0 100%);
+  color: #183058;
+  border-color: #43a047;
+  transform: scale(1.03);
+}
+.turno-disponible.disabled {
+  background: #f1f1f1;
+  color: #aaa;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  border-color: #ccc;
+}
+
+.alert-turno {
+  background: linear-gradient(90deg, #c8e6c9 60%, #a5d6a7 100%);
+  color: #256029;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.btn-confirmar-turno {
+  margin-top: 2.1rem;
+  width: 100%;
+}
+.btn-turno-confirmar {
+  background: linear-gradient(135deg, #090f52, #6b7788);
+  color: #fff;
+  border: none;
+  font-weight: 700;
+  font-size: 1.13rem;
+  padding: 0.77rem 0;
+  border-radius: 30px;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(9,15,82,0.14);
+  cursor: pointer;
+  transition: filter 0.18s, transform 0.2s;
+}
+.btn-turno-confirmar:hover {
+  filter: brightness(1.07);
+  transform: scale(1.03);
+}
+
+@media (max-width: 700px) {
+  .solicitar-turno-card, .solicitar-turno-container {
+    padding: 0 0.7rem;
+  }
+  .solicitar-turno-card {
+    padding: 1.5rem 1rem;
+  }
+}
+
+.especialidades-rect-grid,
+.profesionales-rect-grid,
+.dias-rect-grid,
+.horarios-rect-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.btn-rect {
+  background: #f5f5f5;
+  border: 2.2px solid #090f52;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(81,45,168,0.06);
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: 0.2s all;
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 135px;
+  min-height: 65px;
+  max-width: 180px;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.btn-rect img {
+  width: 89px;
+  height: 89px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 7px;
+}
+.btn-rect.especialidad .nombre-esp,
+.btn-rect.profesional .nombre-prof {
+  margin-top: 2px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #090f52;
+}
+.btn-rect.dia,
+.btn-rect.horario {
+  font-size: 1.06rem;
+  color: #090f52;
+  background: #e3e3f0;
+}
+
+.btn-rect.seleccionado, .btn-rect:hover {
+  border-color: #43a047;
+  background: #e6f9f0;
+  color: #183058;
+  transform: scale(1.04);
+}
+.btn-rect.disabled, .btn-rect:disabled {
+  background: #f1f1f1;
+  color: #aaa;
+  border-color: #ccc;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.volver-btn {
+  margin-top: 0.9rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.96rem;
+  font-weight: 600;
+  border-radius: 25px;
+  border: 2px solid #090f52;
+  color: #090f52;
+  background-color: white;
+  transition: all 0.18s;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.volver-btn:hover {
+  background-color: #090f52;
+  color: white;
+}
+
+
+
+
+

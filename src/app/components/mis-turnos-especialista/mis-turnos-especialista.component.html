@@ -1,0 +1,77 @@
+<div class="turnos-especialista-container">
+  <div class="turnos-especialista-card">
+    <h2 class="turnos-title">Mis Turnos</h2>
+
+    <input
+      type="text"
+      class="form-control turnos-busqueda"
+      placeholder="Filtrar por paciente o especialidad"
+      [(ngModel)]="filtro"
+      (input)="aplicarFiltro()"
+    />
+
+    <div *ngIf="filtrado.length === 0" class="no-turnos">
+      No hay turnos para mostrar.
+    </div>
+
+    <div *ngFor="let turno of filtrado" class="turno-item">
+      <div class="turno-datos">
+        <p><strong>Paciente:</strong> {{ turno.paciente?.nombre }} {{ turno.paciente?.apellido }}</p>
+        <p><strong>Especialidad:</strong> {{ turno.especialidad }}</p>
+        <p><strong>Fecha:</strong> {{ turno.fecha | date: 'fullDate' }} - {{ turno.hora }}</p>
+        <p>
+          <strong>Estado:</strong>
+          <span [ngClass]="{
+            'estado-pendiente': turno.estado === 'pendiente',
+            'estado-aceptado': turno.estado === 'aceptado',
+            'estado-realizado': turno.estado === 'realizado',
+            'estado-cancelado': turno.estado === 'cancelado',
+            'estado-rechazado': turno.estado === 'rechazado'
+          }">{{ turno.estado | titlecase }}</span>
+        </p>
+      </div>
+      <div class="turno-acciones">
+        <button *ngIf="turno.estado === 'pendiente'" class="btn-turno verde" (click)="aceptar(turno)">Aceptar</button>
+        <button *ngIf="turno.estado === 'pendiente'" class="btn-turno rojo" (click)="rechazarConMotivo(turno)">Rechazar</button>
+        <button *ngIf="turno.estado === 'aceptado'" class="btn-turno rojo" (click)="cancelarConMotivo(turno)">Cancelar</button>
+        <button *ngIf="turno.estado === 'aceptado'" class="btn-turno violeta" (click)="finalizarConComentario(turno)">Finalizar turno</button>
+        <button 
+          *ngIf="turno.estado === 'realizado' && turno.comentario_especialista" 
+          class="btn-turno celeste" 
+          (click)="mostrarComentario(turno)">
+          Ver reseña
+        </button>
+      </div>
+
+      <div *ngIf="turnoParaCancelar === turno" class="diagnostico-box">
+        <input [(ngModel)]="motivoCancelacion" class="form-control" placeholder="Motivo de cancelación" />
+        <div style="display:flex; gap:0.6rem; margin-top:0.6rem;">
+          <button class="btn-turno violeta" (click)="cerrarCancelar()">Cerrar</button>
+          <button class="btn-turno rojo" (click)="confirmarCancelar(turno)">Confirmar Cancelación</button>
+        </div>
+      </div>
+
+      <div *ngIf="turnoParaFinalizar === turno" class="diagnostico-box">
+        <input [(ngModel)]="diagnostico" class="form-control" placeholder="Ingrese diagnóstico o comentario..." />
+        <button class="btn-turno verde" (click)="confirmarFinalizar(turno)">Confirmar Diagnóstico</button>
+      </div>
+
+      <div *ngIf="turnoParaRechazar === turno" class="diagnostico-box">
+        <input [(ngModel)]="motivoRechazo" class="form-control" placeholder="Motivo del rechazo" />
+        <div style="display:flex; gap:0.6rem; margin-top:0.6rem;">
+          <button class="btn-turno rojo" (click)="confirmarRechazo(turno)">Confirmar Rechazo</button>
+          <button class="btn-turno violeta" (click)="cerrarRechazo()">Cerrar</button>
+        </div>
+      </div>
+
+
+      <div *ngIf="turnoResenaVisible === turno" class="resena-box">
+        <div class="resena-title">Reseña</div>
+        <div class="resena-content">
+          {{ turno.comentario_especialista || 'Sin comentarios del especialista.' }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

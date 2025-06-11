@@ -20,6 +20,10 @@
         <ng-container *ngIf="pass.errors?.['minlength']">Debe tener al menos 6 caractéres</ng-container>
       </p>
       <p *ngIf="passError" class="error-msg">{{ passError }}</p>
+      
+      <div class="login-link-registro">
+        <a routerLink="/registro" class="router-link">¿No tenés cuenta? ¡Registrate acá!</a>
+      </div>
 
       <div class="login-buttons">
         <button type="submit" [disabled]="formLogin.invalid" class="btn submit">Ingresar</button>

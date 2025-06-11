@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:host {
+  display: block;
+  background: linear-gradient(to bottom right, #e8eaf6, #ede7f6);
+  font-family: 'Montserrat', sans-serif;
+  color: #090f52;
+  padding: 2rem;
+  padding-top: 230px;
+  min-height: 100vh;
+}
+
+.horarios-container {
+  max-width: 600px;
+  margin: 0 auto 3rem auto;
+}
+
+.horarios-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  margin-top: 1rem;
+}
+
+.horarios-title {
+  text-align: center;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #090f52;
+  margin-bottom: 1.5rem;
+}
+
+.alert-exito {
+  background: linear-gradient(90deg, #c8e6c9 60%, #a5d6a7 100%);
+  color: #256029;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+}
+
+.alert-error {
+  background: linear-gradient(90deg, #ffcdd2 60%, #ef9a9a 100%);
+  color: #b71c1c;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+}
+
+.horarios-form-section {
+  margin-bottom: 2rem;
+}
+
+.horarios-label {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.dias-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  margin-top: 0.7rem;
+}
+
+.dia-check {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+  font-size: 1.03rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.horas-flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.7rem;
+}
+
+.horarios-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 250px;
+  border-radius: 12px;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+}
+
+.btn-cargar-horas {
+  background: linear-gradient(135deg, #090f52, #6b7788);
+  color: white;
+  border: none;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(9,15,82,0.12);
+  cursor: pointer;
+}
+
+.btn-cargar-horas:hover {
+  filter: brightness(1.05);
+}
+
+.horas-ej {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #6b7788;
+  margin-left: 0.4rem;
+}
+
+.btn-guardar-horarios {
+  background: linear-gradient(135deg, #090f52, #6b7788);
+  color: white;
+  border: none;
+  font-weight: 700;
+  font-size: 1.08rem;
+  padding: 0.65rem 1.8rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 10px rgba(9,15,82,0.15);
+  margin-top: 1.8rem;
+  width: 100%;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-guardar-horarios:hover {
+  filter: brightness(1.08);
+}
+
+@media (max-width: 700px) {
+  .horarios-card, .horarios-container {
+    padding: 0 0.8rem;
+  }
+  .horarios-card {
+    padding: 1.5rem 1rem;
+  }
+}

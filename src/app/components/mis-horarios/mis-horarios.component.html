@@ -1,0 +1,28 @@
+<div class="horarios-container">
+  <div class="horarios-card">
+    <h2 class="horarios-title">Mis Horarios Disponibles</h2>
+
+    <div *ngIf="mensajeExito" class="alert-exito text-center">{{ mensajeExito }}</div>
+    <div *ngIf="mensajeError" class="alert-error text-center">{{ mensajeError }}</div>
+
+    <div class="horarios-form-section">
+      <label class="horarios-label"><strong>Días:</strong></label>
+      <div class="dias-grid">
+        <label class="dia-check" *ngFor="let dia of disponibles">
+          <input type="checkbox" [checked]="dias_disponibles.includes(dia)" (change)="toggleDia(dia)">
+          <span>{{ dia }}</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="horarios-form-section">
+      <label class="horarios-label"><strong>Horas:</strong> <span class="horas-ej">Ej: 09:00, 10:30</span></label>
+      <div class="horas-flex">
+        <input class="form-control horarios-input" [(ngModel)]="horariosInput" placeholder="Separadas por coma">
+        <button class="btn-cargar-horas" (click)="setHorarios()">Cargar Horas</button>
+      </div>
+    </div>
+
+    <button class="btn-guardar-horarios" (click)="guardar()">Guardar Todo</button>
+  </div>
+</div>

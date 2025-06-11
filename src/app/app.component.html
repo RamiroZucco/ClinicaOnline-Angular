@@ -13,8 +13,25 @@
       </ng-container>
 
       <ng-container *ngIf="userRole === 'admin'">
+        <a routerLink="/mi-perfil" routerLinkActive="active" class="btn">Mi perfil</a>
         <a routerLink="/usuarios" routerLinkActive="active" class="btn">Usuarios</a>
+        <a routerLink="/turnos-admin" routerLinkActive="active" class="btn">Turnos</a>
+        <a routerLink="/solicitar-turno" routerLinkActive="active" class="btn">Solicitar turno</a>
       </ng-container>
+      
+      <ng-container *ngIf="userRole === 'especialista'">
+        <a routerLink="/mis-horarios" routerLinkActive="active" class="btn">Mis horarios</a>
+        <a routerLink="/mis-turnos-especialista" routerLinkActive="active" class="btn">Mis turnos</a>
+        <a routerLink="/mi-perfil" routerLinkActive="active" class="btn">Mi perfil</a>
+      </ng-container>
+
+      <ng-container *ngIf="userRole === 'paciente'">
+        <a routerLink="/mi-perfil" routerLinkActive="active" class="btn">Mi perfil</a>
+        <a routerLink="/mis-turnos-paciente" routerLinkActive="active" class="btn">Mis turnos</a>
+        <a routerLink="/solicitar-turno" routerLinkActive="active" class="btn">Solicitar turno</a>
+      </ng-container>
+
+
     </div>
 
     <div *ngIf="userEmail" class="user-area d-flex align-items-center">

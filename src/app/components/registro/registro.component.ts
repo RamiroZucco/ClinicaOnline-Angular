@@ -17,18 +17,39 @@ export class RegistroComponent {
   form: any = {};
   imagen1: File | null = null;
   imagen2: File | null = null;
-  mensaje: string = ''; 
+  mensaje: string = '';
   error: string = '';
   tipoSeleccionado: string | null = null;
-  especialidades = ['Pediatría', 'Oftalmología', 'Cardiología', 'Traumatología', 'Dermatología'];
+
+  especialidadesDisponibles = [
+    'Pediatría',
+    'Oftalmología',
+    'Cardiología',
+    'Traumatología',
+    'Dermatología'
+  ];
+  especialidadesSeleccionadas: string[] = [];
   mostrarCampoOtraEspecialidad = false;
   nuevaEspecialidad = '';
+
+  captchaTexto: string = '';
+  captchaIngresado: string = '';
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.generarCaptcha();
+  }
+
+
+  generarCaptcha() {
+    const posibles = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    this.captchaTexto = Array.from({ length: 5 }, () => posibles[Math.floor(Math.random() * posibles.length)]).join('');
+  }
 
   handleFileUpload(event: any, index: number) {
     const file = event.target.files[0];
@@ -38,18 +59,45 @@ export class RegistroComponent {
 
   seleccionarTipo(tipo: string) {
     this.tipoSeleccionado = tipo;
-    this.form = {}; 
+    this.form = {};
     this.error = '';
     this.mensaje = '';
     this.imagen1 = null;
     this.imagen2 = null;
     this.mostrarCampoOtraEspecialidad = false;
     this.nuevaEspecialidad = '';
+    this.especialidadesSeleccionadas = [];
+  }
+
+  toggleEspecialidad(especialidad: string, event: any) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      if (!this.especialidadesSeleccionadas.includes(especialidad)) {
+        this.especialidadesSeleccionadas.push(especialidad);
+      }
+    } else {
+      this.especialidadesSeleccionadas = this.especialidadesSeleccionadas.filter(e => e !== especialidad);
+    }
+  }
+
+  toggleOtraEspecialidad(event: any) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.mostrarCampoOtraEspecialidad = checked;
+    if (!checked) {
+      this.nuevaEspecialidad = '';
+    }
   }
 
   async registrar() {
     this.mensaje = '';
     this.error = '';
+
+    if (this.captchaIngresado.trim().toUpperCase() !== this.captchaTexto) {
+      this.error = 'Captcha incorrecto. Intente nuevamente.';
+      this.generarCaptcha();
+      this.captchaIngresado = '';
+      return;
+    }
 
     if (this.tipoSeleccionado === 'paciente' && (!this.imagen1 || !this.imagen2)) {
       this.error = 'Debe seleccionar ambas imágenes';
@@ -60,19 +108,29 @@ export class RegistroComponent {
       return;
     }
 
+    if (this.tipoSeleccionado === 'especialista') {
+      let especialidadesFinal: string[] = [...this.especialidadesSeleccionadas];
+
+      if (this.mostrarCampoOtraEspecialidad && this.nuevaEspecialidad.trim()) {
+        especialidadesFinal.push(this.nuevaEspecialidad.trim());
+        if (!this.especialidadesDisponibles.includes(this.nuevaEspecialidad.trim())) {
+          this.especialidadesDisponibles.push(this.nuevaEspecialidad.trim());
+        }
+      }
+
+      if (especialidadesFinal.length === 0) {
+        this.error = 'Debe seleccionar al menos una especialidad';
+        return;
+      }
+      this.form.especialidades = especialidadesFinal.join(', ');
+    }
+
     try {
       const result = await this.authService.signUp(this.form.email, this.form.password);
       if (result.error) throw result.error;
 
       const id = this.authService.getUserIdFromSignUpResult(result);
       if (!id) throw new Error('No se pudo obtener el ID del usuario');
-
-      if (this.mostrarCampoOtraEspecialidad && this.nuevaEspecialidad.trim()) {
-        this.form.especialidades = this.nuevaEspecialidad.trim();
-        if (!this.especialidades.includes(this.nuevaEspecialidad.trim())) {
-          this.especialidades.push(this.nuevaEspecialidad.trim());
-        }
-      }
 
       const { password, ...rest } = this.form;
       const userData = {
@@ -99,6 +157,7 @@ export class RegistroComponent {
       this.imagen2 = null;
       this.mostrarCampoOtraEspecialidad = false;
       this.nuevaEspecialidad = '';
+      this.especialidadesSeleccionadas = [];
     } catch (error: any) {
       this.error = error.message || 'Error al registrar usuario';
     }
