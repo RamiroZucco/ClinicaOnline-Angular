@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 import { TurnosService } from '../../services/turnos.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-solicitar-turno',
@@ -38,11 +39,11 @@ export class SolicitarTurnoComponent implements OnInit {
 
   diasDisponibles: { fecha: string, label: string, diaSemana: string }[] = [];
 
-
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private turnosService: TurnosService
+    private turnosService: TurnosService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -53,12 +54,11 @@ export class SolicitarTurnoComponent implements OnInit {
     const usuario = usuarios.find((u: any) => u.email === this.user.email);
 
     this.esAdmin = usuario.rol === 'admin';
-    this.pacienteSeleccionado = usuario;
+    this.pacienteSeleccionado = this.esAdmin ? null : usuario;
 
     this.especialistasAll = usuarios.filter(u => u.rol === 'especialista' && u.habilitado);
 
     const especialidadesSet = new Map<string, string>();
-
     for (const esp of this.especialidadesBase) {
       especialidadesSet.set(esp.nombre, esp.img);
     }
@@ -77,6 +77,16 @@ export class SolicitarTurnoComponent implements OnInit {
     if (this.esAdmin) {
       this.pacientes = usuarios.filter(u => u.rol === 'paciente');
     }
+  }
+
+  seleccionarPaciente(pac: any) {
+    this.pacienteSeleccionado = pac;
+    this.especialidadSeleccionada = '';
+    this.especialistaSeleccionado = null;
+    this.diaSeleccionado = '';
+    this.horariosDisponibles = [];
+    this.horarioSeleccionado = null;
+    this.diasDisponibles = [];
   }
 
   seleccionarEspecialidad(esp: string) {
@@ -157,7 +167,7 @@ export class SolicitarTurnoComponent implements OnInit {
     const turnosOcupados = new Set<string>();
     for (const turno of turnosExistentes) {
       if (['pendiente', 'aceptado', 'realizado'].includes(turno.estado)) {
-        const clave = `${turno.fecha}-${turno.hora.slice(0, 5)}`;
+        const clave = `${fecha}-${turno.hora.slice(0, 5)}`;
         turnosOcupados.add(clave);
       }
     }
@@ -181,6 +191,11 @@ export class SolicitarTurnoComponent implements OnInit {
     if (!this.horarioSeleccionado) return;
 
     const paciente = this.pacienteSeleccionado;
+    if (!paciente) {
+      this.mensaje = 'Debe seleccionar un paciente';
+      return;
+    }
+
     const nuevoTurno = {
       paciente_id: paciente.id,
       especialista_id: this.especialistaSeleccionado.id,
@@ -194,7 +209,15 @@ export class SolicitarTurnoComponent implements OnInit {
 
     this.mensaje = 'Turno solicitado correctamente.';
     this.horarioSeleccionado = null;
-    setTimeout(() => this.mensaje = '', 5000);
+
+    setTimeout(() => {
+      this.mensaje = '';
+      if (this.esAdmin) {
+        this.router.navigateByUrl('/turnos-admin');
+      } else {
+        this.router.navigateByUrl('/mis-turnos-paciente');
+      }
+    }, 1200);
   }
 
   getEspecialidadImg(nombre: string): string {

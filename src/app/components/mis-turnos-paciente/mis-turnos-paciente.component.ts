@@ -46,10 +46,36 @@ export class MisTurnosPacienteComponent implements OnInit {
 
   filtrar() {
     const filtro = this.inputBusqueda.toLowerCase();
-    this.filtrado = this.turnos.filter(turno =>
-      turno.especialidad?.toLowerCase().includes(filtro) ||
-      turno.especialista?.nombre?.toLowerCase().includes(filtro)
-    );
+    this.filtrado = this.turnos.filter(turno => {
+      let texto = [
+        turno.especialidad,
+        turno.especialista?.nombre,
+        turno.especialista?.apellido,
+        turno.fecha,
+        turno.hora,
+        turno.altura,
+        turno.peso,
+        turno.temperatura,
+        turno.presion,
+        turno.comentario_especialista,
+        turno.estado,
+        turno.comentario_cancelacion,
+        turno.encuesta,
+        turno.calificacion
+      ]
+        .map(x => x ?? '')
+        .join(' ')
+        .toLowerCase();
+
+      if (turno.extra_dinamico) {
+        const din = Object.entries(turno.extra_dinamico)
+          .map(([clave, valor]) => `${clave} ${valor}`)
+          .join(' ')
+          .toLowerCase();
+        texto += ' ' + din;
+      }
+      return texto.includes(filtro);
+    });
   }
 
   puedeCancelar(t: any) {

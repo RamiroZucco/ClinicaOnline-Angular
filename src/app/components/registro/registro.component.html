@@ -121,19 +121,14 @@
         </ng-container>
 
         <div class="captcha-section">
-          <label>Verificación</label>
-          <div class="captcha-flex">
-            <span class="captcha-badge">{{ captchaTexto }}</span>
-            <input class="form-control" placeholder="Escriba el texto"
-                  [(ngModel)]="captchaIngresado"
-                  name="captcha"
-                  required
-                  autocomplete="off">
-            <button type="button" class="btn-refresh" (click)="generarCaptcha()" title="Actualizar captcha">
-              &#x21bb;
-            </button>
-          </div>
-          <small class="text-muted">Ingrese el texto idéntico a como lo ve</small>
+              <label>Verificación</label>
+              <div class="captcha-flex">
+                <re-captcha
+                  [siteKey]="'6LfxW2krAAAAAGpX_FdpILRISMRs_LXi2HgR4dbu'"
+                  (resolved)="onCaptchaResolved($event)">
+                </re-captcha>
+              </div>
+              <div *ngIf="error" class="text-danger">{{ error }}</div>
         </div>
 
         <button type="submit" class="btn submit-btn w-100">Registrarse</button>

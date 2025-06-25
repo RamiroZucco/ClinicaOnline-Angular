@@ -5,7 +5,7 @@
     <input
       type="text"
       class="form-control turnos-busqueda"
-      placeholder="Filtrar por paciente o especialidad"
+      placeholder="Filtrar por paciente, especialidad o algún campo del turno"
       [(ngModel)]="filtro"
       (input)="aplicarFiltro()"
     />
@@ -51,11 +51,6 @@
         </div>
       </div>
 
-      <div *ngIf="turnoParaFinalizar === turno" class="diagnostico-box">
-        <input [(ngModel)]="diagnostico" class="form-control" placeholder="Ingrese diagnóstico o comentario..." />
-        <button class="btn-turno verde" (click)="confirmarFinalizar(turno)">Confirmar Diagnóstico</button>
-      </div>
-
       <div *ngIf="turnoParaRechazar === turno" class="diagnostico-box">
         <input [(ngModel)]="motivoRechazo" class="form-control" placeholder="Motivo del rechazo" />
         <div style="display:flex; gap:0.6rem; margin-top:0.6rem;">
@@ -64,14 +59,18 @@
         </div>
       </div>
 
-
       <div *ngIf="turnoResenaVisible === turno" class="resena-box">
         <div class="resena-title">Reseña</div>
         <div class="resena-content">
           {{ turno.comentario_especialista || 'Sin comentarios del especialista.' }}
         </div>
       </div>
-
     </div>
   </div>
 </div>
+
+<app-finalizar-turno
+  *ngIf="turnoParaFinalizar"
+  [turno]="turnoParaFinalizar"
+  (cerrarModal)="onCerrarFinalizarTurno($event)">
+</app-finalizar-turno>

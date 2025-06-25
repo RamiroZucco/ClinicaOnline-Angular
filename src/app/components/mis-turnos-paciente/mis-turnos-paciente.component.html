@@ -2,8 +2,6 @@
   <div class="turnos-paciente-card">
     <h2 class="turnos-title">Mis Turnos</h2>
 
-    <div *ngIf="mensaje" class="alert-info-turno text-center">{{ mensaje }}</div>
-
     <input
       [(ngModel)]="inputBusqueda"
       (input)="filtrar()"

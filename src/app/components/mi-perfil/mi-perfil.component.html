@@ -16,6 +16,69 @@
           <img *ngIf="usuario.imagen2" [src]="usuario.imagen2" class="perfil-img" alt="Imagen secundaria">
         </div>
       </div>
+
+      <div *ngIf="usuario.rol === 'paciente'" class="historia-container">
+        <h3 class="historia-title">Historia Clínica</h3>
+
+        <div class="historia-header">
+          <div class="historia-filtros">
+            <label>Filtrar por especialidad:</label>
+            <select class="form-control filtro-select" [(ngModel)]="especialidadSeleccionada">
+              <option value="">Todas</option>
+              <option *ngFor="let esp of especialidades" [value]="esp">{{ esp }}</option>
+            </select>
+          </div>
+          <div class="historia-botones">
+            <button class="btn rz-btn-success" (click)="descargarHistoriaCompleta()">
+              <i class="bi bi-download"></i> Generar PDF 
+            </button>
+            <button class="btn rz-btn-primary" [disabled]="!especialidadSeleccionada" (click)="descargarHistoriaPorEspecialidad()">
+              <i class="bi bi-download"></i> Generar PDF (Solo especialidad seleccionada)
+            </button>
+          </div>
+        </div>
+
+        <div class="historia-tabla-outer">
+          <table class="historia-tabla">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Especialidad</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <th>Temp.</th>
+                <th>Presión</th>
+                <th>Comentario</th>
+                <th>Campos Dinámicos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of getHistoriaFiltrada()">
+                <td>{{ t.fecha }}</td>
+                <td>{{ t.hora }}</td>
+                <td>{{ t.especialidad }}</td>
+                <td>{{ t.altura ?? '-' }}</td>
+                <td>{{ t.peso ?? '-' }}</td>
+                <td>{{ t.temperatura ?? '-' }}</td>
+                <td>{{ t.presion ?? '-' }}</td>
+                <td class="comentario-td">{{ t.comentario_especialista ?? '-' }}</td>
+                <td>
+                  <div class="campos-dinamicos-list">
+                    <ng-container *ngIf="t.extra_dinamico as extra">
+                      <div *ngFor="let item of getExtraArray(extra)" class="campo-item">
+                        <span class="campo-clave">{{ item.clave }}:</span>
+                        <span class="campo-valor">{{ item.valor }}</span>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="!t.extra_dinamico">-</ng-container>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </ng-container>
   </div>
 </div>

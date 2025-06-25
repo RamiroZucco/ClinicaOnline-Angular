@@ -5,13 +5,17 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { RecaptchaModule } from 'ng-recaptcha';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { TurnosService } from '../../services/turnos.service';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],
-  imports: [CommonModule, RouterModule, FormsModule]
+  imports: [CommonModule, RouterModule, FormsModule, RecaptchaModule]
 })
 export class UsuariosComponent implements OnInit {
   usuarios: any[] = [];
@@ -27,30 +31,115 @@ export class UsuariosComponent implements OnInit {
   mostrarCampoOtraEspecialidad = false;
   nuevaEspecialidad = '';
   especialidadesSeleccionadas: string[] = [];
-  captchaTexto: string = '';
-  captchaIngresado: string = '';
-  
+
+  recaptchaToken: string = '';
+  recaptchaResolved: boolean = false;
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private turnosService: TurnosService 
   ) {}
 
   async ngOnInit() {
     const rol = localStorage.getItem('loggedInUserRole');
-    this.generarCaptcha();
     if (rol !== 'admin') {
       this.router.navigateByUrl('/usuarios');
       return;
     }
     await this.cargarUsuarios();
-    
   }
 
-  generarCaptcha() {
-    const posibles = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    this.captchaTexto = Array.from({ length: 5 }, () => posibles[Math.floor(Math.random() * posibles.length)]).join('');
+  async descargarExcelUsuario(usuario: any) {
+    let turnos: any[] = [];
+    if (usuario.rol === 'paciente') {
+      turnos = await this.turnosService.obtenerTurnosPorUsuario(usuario.id, 'paciente');
+    }
+    const getNombreEspecialista = (id: string) => {
+      const espec = this.usuarios.find(u => u.id === id);
+      if (!espec) return id;
+      return `${espec.nombre} ${espec.apellido}`;
+    };
+
+    let dataUsuario: any[] = [];
+    let dataTurnos: any[] = [];
+
+    if (usuario.rol === 'especialista') {
+      dataUsuario = [{
+        Nombre: usuario.nombre,
+        Apellido: usuario.apellido,
+        Email: usuario.email,
+        Edad: usuario.edad,
+        DNI: usuario.dni,
+        Especialidades: usuario.especialidades ?? ''
+      }];
+    }
+    else if (usuario.rol === 'paciente') {
+      dataUsuario = [{
+        Nombre: usuario.nombre,
+        Apellido: usuario.apellido,
+        Email: usuario.email,
+        Edad: usuario.edad,
+        DNI: usuario.dni,
+        ObraSocial: usuario.obra_social ?? ''
+      }];
+      dataTurnos = turnos.map(t => ({
+        Fecha: t.fecha,
+        Hora: t.hora,
+        Especialidad: t.especialidad,
+        Estado: t.estado,
+        Profesional: getNombreEspecialista(t.especialista_id)
+      }));
+    }
+    else if (usuario.rol === 'admin') {
+      dataUsuario = [{
+        Nombre: usuario.nombre,
+        Apellido: usuario.apellido,
+        Email: usuario.email,
+        Edad: usuario.edad,
+        DNI: usuario.dni,
+        Rol: usuario.rol
+      }];
+    }
+    const ws1 = XLSX.utils.json_to_sheet(dataUsuario, { skipHeader: false });
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws1, 'Datos');
+    if (usuario.rol === 'paciente' && dataTurnos.length > 0) {
+      const ws2 = XLSX.utils.json_to_sheet(dataTurnos, { skipHeader: false });
+      XLSX.utils.book_append_sheet(wb, ws2, 'Turnos');
+    }
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), `usuario_${usuario.nombre}_${usuario.apellido}.xlsx`);
+  }
+
+  descargarExcelGeneral() {
+    const data = this.usuarios.map(u => ({
+      Nombre: u.nombre,
+      Apellido: u.apellido,
+      Email: u.email,
+      Edad: u.edad,
+      Rol: u.rol,
+      DNI: u.dni,
+      Habilitado: u.habilitado ? 'Sí' : 'No',
+      ObraSocial: u.obra_social ?? '',
+      Especialidades: u.especialidades ?? '',
+    }));
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Usuarios');
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), 'usuarios_general.xlsx');
+  }
+
+  onCaptchaResolved(token: string | null) {
+    if (token) {
+      this.recaptchaResolved = true;
+      this.recaptchaToken = token;
+    } else {
+      this.recaptchaResolved = false;
+      this.recaptchaToken = '';
+    }
   }
 
   toggleEspecialidad(especialidad: string, event: any) {
@@ -112,6 +201,8 @@ export class UsuariosComponent implements OnInit {
     this.mostrarCampoOtraEspecialidad = false;
     this.nuevaEspecialidad = '';
     this.especialidadesSeleccionadas = [];
+    this.recaptchaToken = '';
+    this.recaptchaResolved = false;
   }
 
   cancelarRegistro() {
@@ -121,6 +212,8 @@ export class UsuariosComponent implements OnInit {
     this.imagen2 = null;
     this.mensaje = '';
     this.error = '';
+    this.recaptchaToken = '';
+    this.recaptchaResolved = false;
   }
 
   handleFileUpload(event: any, index: number = 1) {
@@ -133,10 +226,8 @@ export class UsuariosComponent implements OnInit {
     this.mensaje = '';
     this.error = '';
 
-    if (this.captchaIngresado.trim().toUpperCase() !== this.captchaTexto) {
-      this.error = 'Captcha incorrecto. Intente nuevamente.';
-      this.generarCaptcha();
-      this.captchaIngresado = '';
+    if (!this.recaptchaToken) {
+      this.error = 'Debe completar la verificación captcha';
       return;
     }
 
@@ -188,4 +279,10 @@ export class UsuariosComponent implements OnInit {
       this.error = error.message || 'Error al registrar usuario';
     }
   }
+
+  alClickearUsuario(usuario: any) {
+    this.seleccionar(usuario);
+    this.descargarExcelUsuario(usuario);
+  }
+
 }

@@ -20,6 +20,7 @@
       </ng-container>
       
       <ng-container *ngIf="userRole === 'especialista'">
+        <a routerLink="/mis-pacientes" routerLinkActive="active" class="btn">Mis pacientes</a>
         <a routerLink="/mis-horarios" routerLinkActive="active" class="btn">Mis horarios</a>
         <a routerLink="/mis-turnos-especialista" routerLinkActive="active" class="btn">Mis turnos</a>
         <a routerLink="/mi-perfil" routerLinkActive="active" class="btn">Mi perfil</a>
@@ -41,4 +42,6 @@
   </div>
 </header>
 
-<router-outlet></router-outlet>
+<main [@routeAnimations]="prepareRoute(outlet)" class="page-container">
+  <router-outlet #outlet="outlet"></router-outlet>
+</main>

@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
+:host {
+  display: block;
+  background: linear-gradient(to bottom right, #e8eaf6, #ede7f6);
+  font-family: 'Montserrat', sans-serif;
+  color: #090f52;
+  padding: 2rem;
+  padding-top: 230px;
+}
+
+.usuarios-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.usuarios-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.titulo {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+}
+
+.usuarios-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.usuario-item {
+  width: 380px;
+  background: #e3e3f0;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(81, 45, 168, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.usuario-item:hover {
+  transform: scale(1.03);
+}
+
+.usuario-img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.usuario-info {
+  padding: 1rem;
+}
+
+.ultimos-turnos {
+  margin-top: 0.6rem;
+  background: #f3f6fb;
+  border-radius: 10px;
+  padding: 0.9rem 0.4rem;
+}
+
+.turno-titulo {
+  font-weight: 700;
+  color: #090f52;
+  font-size: 0.97rem;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.turno-mini {
+  font-size: 0.96rem;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.1rem;
+}
+
+.estado {
+  font-size: 0.88rem;
+  padding: 2px 7px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.estado.realizado { background: #c8e6c9; color: #256029; }
+.estado.aceptado { background: #b3e5fc; color: #01579b; }
+.estado.pendiente { background: #fff59d; color: #ff6f00; }
+.estado.cancelado { background: #ffcdd2; color: #b71c1c; }
+.estado.rechazado { background: #ffe082; color: #bf360c; }
+
+.detalles-card {
+  background: #e3e3f0;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.detalles-card h4 {
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.detalle-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.detalles-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.detalles-card li {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+}
+
+.imagenes-laterales {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.imagenes-laterales img {
+  max-width: 180px;
+  max-height: 300px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: block;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+}
+
+.table.historia-tabla {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #a1a1b5;
+}
+
+.historia-container {
+  margin-top: 2.2rem;
+}
+
+.historia-title {
+  font-size: 1.32rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+  color: #090f52;
+}
+
+.historia-tabla-outer {
+  overflow-x: auto;
+  background: #f7f8fa;
+  border-radius: 16px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(81,45,168,0.04);
+}
+
+.historia-tabla {
+  min-width: 800px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.98rem;
+  margin: 0;
+}
+
+.historia-tabla th,
+.historia-tabla td {
+  padding: 0.65rem 0.9rem;
+  text-align: center;
+  border-bottom: 1.2px solid #e3e6ee;
+  background: transparent;
+  vertical-align: middle;
+}
+
+.historia-tabla th {
+  background: #e4e6fa;
+  color: #090f52;
+  font-weight: 700;
+  font-size: 1.01rem;
+}
+
+.historia-tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.comentario-td {
+  max-width: 145px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campos-dinamicos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.14rem;
+  align-items: flex-start;
+  font-size: 0.96rem;
+}
+.campo-item {
+  background: #f1f7ff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-bottom: 2px;
+  color: #23396b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: inline-block;
+}
+.campo-clave {
+  font-weight: 700;
+  color: #4e61ad;
+}
+.campo-valor {
+  font-weight: 500;
+  color: #23396b;
+}

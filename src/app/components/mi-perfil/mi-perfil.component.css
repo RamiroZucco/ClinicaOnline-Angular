@@ -6,20 +6,20 @@
   font-family: 'Montserrat', sans-serif;
   color: #090f52;
   padding: 2rem;
-  padding-top: 230px; 
+  padding-top: 230px;
   min-height: 100vh;
 }
 
 .perfil-container {
-  max-width: 600px;
+  max-width: 660px;
   margin: 0 auto 3rem auto;
 }
 
 .perfil-card {
-  background: #ffffff;
+  background: #fff;
   border-radius: 20px;
-  padding: 2.5rem 2rem;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  padding: 2.6rem 2.2rem;
+  box-shadow: 0 8px 30px rgba(9, 15, 82, 0.10);
   margin-top: 1rem;
 }
 
@@ -37,10 +37,11 @@
   align-items: flex-start;
   gap: 2rem;
   flex-wrap: wrap;
+  margin-bottom: 2.2rem;
 }
 
 .perfil-datos p {
-  font-size: 1.08rem;
+  font-size: 1.12rem;
   margin-bottom: 0.7rem;
   font-weight: 500;
 }
@@ -57,26 +58,160 @@
 }
 
 .perfil-img {
-  max-width: 140px;
-  max-height: 180px;
+  max-width: 120px;
+  max-height: 155px;
   border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.10);
   object-fit: cover;
   background: #fff;
   border: 2px solid #b5b5db;
 }
 
-@media (max-width: 700px) {
-  .perfil-datos {
-    flex-direction: column;
-    align-items: center;
+.historia-container {
+  margin-top: 1.7rem;
+}
+
+.historia-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: #090f52;
+}
+
+.historia-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-bottom: 0.7rem;
+}
+
+.historia-filtros label {
+  font-weight: 600;
+  margin-right: 0.4rem;
+  font-size: 1.05rem;
+}
+.filtro-select {
+  min-width: 130px;
+  padding: 0.45rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #b5b5db;
+  font-size: 1rem;
+  margin-left: 0.6rem;
+  background: #fafbff;
+}
+
+.historia-botones {
+  display: flex;
+  gap: 0.7rem;
+} 
+
+.btn.rz-btn-success {
+  background: linear-gradient(135deg,#6b7788 , #090f52);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  padding: 0.43rem 1.2rem;
+  font-size: 1.01rem;
+  transition: filter 0.2s, transform 0.2s;
+  box-shadow: 0 2px 7px rgba(81,45,168,0.07);
+}
+.btn.rz-btn-success:hover { filter: brightness(1.07); }
+
+.btn.rz-btn-primary {
+  background: linear-gradient(135deg, #090f52, #6b7788);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  padding: 0.43rem 1.2rem;
+  font-size: 1.01rem;
+  transition: filter 0.2s, transform 0.2s;
+  box-shadow: 0 2px 7px rgba(81,45,168,0.07);
+}
+.btn.rz-btn-primary[disabled], .btn.rz-btn-success[disabled] {
+  filter: grayscale(0.7) opacity(0.8);
+  cursor: not-allowed;
+}
+
+
+.historia-tabla-outer {
+  overflow-x: auto;
+  background: #f7f8fa;
+  border-radius: 16px;
+  margin-top: 1rem;
+  box-shadow: 0 2px 8px rgba(81,45,168,0.04);
+}
+
+.historia-tabla {
+  min-width: 800px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.98rem;
+  margin: 0;
+}
+
+.historia-tabla th,
+.historia-tabla td {
+  padding: 0.65rem 0.9rem;
+  text-align: center;
+  border-bottom: 1.2px solid #e3e6ee;
+  background: transparent;
+  vertical-align: middle;
+}
+
+.historia-tabla th {
+  background: #e4e6fa;
+  color: #090f52;
+  font-weight: 700;
+  font-size: 1.01rem;
+}
+
+.historia-tabla tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.comentario-td {
+  max-width: 145px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.campos-dinamicos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.14rem;
+  align-items: flex-start;
+  font-size: 0.96rem;
+}
+.campo-item {
+  background: #f1f7ff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-bottom: 2px;
+  color: #23396b;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: inline-block;
+}
+.campo-clave {
+  font-weight: 700;
+  color: #4e61ad;
+}
+.campo-valor {
+  font-weight: 500;
+  color: #23396b;
+}
+
+@media (max-width: 800px) {
+  .perfil-card, .perfil-container {
+    padding: 0 0.5rem;
   }
-  .perfil-imagenes {
-    flex-direction: row;
-    gap: 1rem;
-    justify-content: center;
-  }
-  .perfil-container {
-    padding: 0 0.7rem;
+  .perfil-card {
+    padding: 1.3rem 0.4rem;
   }
 }

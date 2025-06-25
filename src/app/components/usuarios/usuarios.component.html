@@ -3,7 +3,7 @@
     <h2 class="titulo">Gestión de Usuarios</h2>
 
     <div class="usuarios-grid" *ngIf="usuarios.length > 0; else sinUsuarios">
-      <div class="usuario-item" *ngFor="let usuario of usuarios" (click)="seleccionar(usuario)">
+      <div class="usuario-item" *ngFor="let usuario of usuarios" (click)="alClickearUsuario(usuario)">
         <img [src]="usuario.imagen1 || 'assets/default-profile.png'" class="usuario-img" alt="Foto perfil">
         <div class="usuario-info">
           <h5>{{ usuario.nombre }} {{ usuario.apellido }}</h5>
@@ -18,6 +18,13 @@
     <ng-template #sinUsuarios>
       <p class="text-center text-muted">No hay usuarios registrados.</p>
     </ng-template>
+
+    <div class="usuarios-excel-general">
+      <button class="btn rz-btn-excel" (click)="descargarExcelGeneral()">
+        <i class="bi bi-file-earmark-excel"></i>
+        Generar Excel de todos los usuarios
+      </button>
+    </div>
 
     <div *ngIf="usuarioSeleccionado" class="detalles-card">
       <h4>Detalles del Usuario</h4>
@@ -46,6 +53,8 @@
         </div>
       </div>
     </div>
+
+    
 
     <div class="registro-container">
       <div class="registro-card">
@@ -181,17 +190,12 @@
             <div class="captcha-section">
               <label>Verificación</label>
               <div class="captcha-flex">
-                <span class="captcha-badge">{{ captchaTexto }}</span>
-                <input class="form-control" placeholder="Escriba el texto"
-                      [(ngModel)]="captchaIngresado"
-                      name="captcha"
-                      required
-                      autocomplete="off">
-                <button type="button" class="btn-refresh" (click)="generarCaptcha()" title="Actualizar captcha">
-                  &#x21bb;
-                </button>
+                <re-captcha
+                  [siteKey]="'6LfxW2krAAAAAGpX_FdpILRISMRs_LXi2HgR4dbu'"
+                  (resolved)="onCaptchaResolved($event)">
+                </re-captcha>
               </div>
-              <small class="text-muted">Ingrese el texto idéntico a como lo ve</small>
+              <div *ngIf="error" class="text-danger">{{ error }}</div>
             </div>
 
             <button type="submit" class="btn submit-btn w-100">Crear usuario</button>

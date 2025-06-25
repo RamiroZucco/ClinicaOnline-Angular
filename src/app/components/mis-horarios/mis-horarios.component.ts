@@ -18,6 +18,7 @@ export class MisHorariosComponent implements OnInit {
   disponibles = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
   horariosInput: string = '';
 
+  horariosGuardados: any[] = []; // Para mostrar los horarios ya existentes
   mensajeExito: string = '';
   mensajeError: string = '';
 
@@ -33,8 +34,10 @@ export class MisHorariosComponent implements OnInit {
     const users = await this.userService.getAllUsers();
     this.usuario = users.find(u => u.email === email);
 
-    this.dias_disponibles = this.usuario.dias_disponibles || [];
-    this.horarios = this.usuario.horarios || [];
+    this.horariosGuardados = await this.horariosService.obtenerHorariosPorEspecialista(this.usuario.id);
+
+    this.dias_disponibles = [...new Set(this.horariosGuardados.map(h => h.dia))];
+    this.horarios = [...new Set(this.horariosGuardados.map(h => h.desde))];
     this.horariosInput = this.horarios.join(', ');
   }
 
@@ -110,6 +113,8 @@ export class MisHorariosComponent implements OnInit {
           }
         }
       }
+
+      this.horariosGuardados = await this.horariosService.obtenerHorariosPorEspecialista(this.usuario.id);
 
       this.mensajeExito = 'Horarios guardados correctamente.';
     } catch (error) {

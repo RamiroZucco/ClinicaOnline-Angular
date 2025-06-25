@@ -1,0 +1,75 @@
+<div class="usuarios-container">
+  <div class="usuarios-card">
+    <h2 class="titulo">Mis Pacientes</h2>
+
+    <div class="usuarios-grid" *ngIf="pacientes.length > 0; else sinPacientes">
+      <div class="usuario-item" *ngFor="let paciente of pacientes" (click)="verHistoriaClinica(paciente)">
+        <img [src]="paciente.imagen1 || 'assets/default-profile.png'" class="usuario-img" alt="Foto paciente">
+        <div class="usuario-info">
+          <h5>{{ paciente.nombre }} {{ paciente.apellido }}</h5>
+          <p>DNI: {{ paciente.dni }}</p>
+          <p>Obra Social: {{ paciente.obra_social || '-' }}</p>
+          <p>Correo: {{ paciente.email }}</p>
+          <div class="ultimos-turnos">
+            <span class="turno-titulo">Últimos 3 turnos:</span>
+            <div *ngFor="let t of getUltimosTurnos(paciente.id)" class="turno-mini">
+              <span>{{ t.fecha }} {{ t.hora }} - {{ t.especialidad }}</span>
+              <span class="estado" [ngClass]="t.estado">{{ t.estado | titlecase }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #sinPacientes>
+      <p class="text-center text-muted">No se encontraron pacientes atendidos.</p>
+    </ng-template>
+
+    <div *ngIf="pacienteSeleccionado" class="historia-container">
+        <h3 class="historia-title">
+            Historia Clínica de {{ pacienteSeleccionado.nombre }} {{ pacienteSeleccionado.apellido }}
+        </h3>
+
+        <div class="historia-tabla-outer">
+            <table class="historia-tabla">
+            <thead>
+                <tr>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Especialidad</th>
+                <th>Altura</th>
+                <th>Peso</th>
+                <th>Temp.</th>
+                <th>Presión</th>
+                <th>Comentario</th>
+                <th>Campos Dinámicos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let t of historiaTurnos">
+                <td>{{ t.fecha }}</td>
+                <td>{{ t.hora }}</td>
+                <td>{{ t.especialidad }}</td>
+                <td>{{ t.altura ?? '-' }}</td>
+                <td>{{ t.peso ?? '-' }}</td>
+                <td>{{ t.temperatura ?? '-' }}</td>
+                <td>{{ t.presion ?? '-' }}</td>
+                <td class="comentario-td">{{ t.comentario_especialista ?? '-' }}</td>
+                <td>
+                    <div class="campos-dinamicos-list">
+                    <ng-container *ngIf="t.extra_dinamico as extra">
+                        <div *ngFor="let item of getExtraArray(extra)" class="campo-item">
+                        <span class="campo-clave">{{ item.clave }}:</span>
+                        <span class="campo-valor">{{ item.valor }}</span>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!t.extra_dinamico">-</ng-container>
+                    </div>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+    </div>
+  </div>
+</div>

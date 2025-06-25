@@ -3,13 +3,16 @@ import { RouterOutlet, Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service'; 
 import { CommonModule } from '@angular/common';
+import { trigger, transition, style, animate, query, group } from '@angular/animations';
+import { routeAnimations } from './animations/route-animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,  
   imports: [RouterModule, RouterOutlet, CommonModule],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']  
+  styleUrls: ['./app.component.css'],
+  animations: [routeAnimations]
 })
 export class AppComponent implements OnInit {
   userEmail: string | null = null;
@@ -42,5 +45,9 @@ export class AppComponent implements OnInit {
     this.userRole = '';
     localStorage.clear();
     this.router.navigateByUrl('/');
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    return outlet?.activatedRouteData?.['animation'];
   }
 }

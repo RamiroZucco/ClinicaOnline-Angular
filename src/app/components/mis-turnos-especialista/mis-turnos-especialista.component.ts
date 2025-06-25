@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TurnosService } from '../../services/turnos.service';
+import { FinalizarTurnoComponent } from '../finalizar-turno/finalizar-turno.component';
 
 @Component({
   selector: 'app-mis-turnos-especialista',
   standalone: true,
   templateUrl: './mis-turnos-especialista.component.html',
   styleUrls: ['./mis-turnos-especialista.component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, FinalizarTurnoComponent]
 })
 export class MisTurnosEspecialistaComponent implements OnInit {
   turnos: any[] = [];
@@ -18,7 +19,6 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   filtro: string = '';
   turnoParaFinalizar: any = null; 
   turnoResenaVisible: any = null; 
-  diagnostico: string = '';
   turnoParaCancelar: any = null;
   motivoCancelacion: string = '';
   turnoParaRechazar: any = null;
@@ -42,10 +42,34 @@ export class MisTurnosEspecialistaComponent implements OnInit {
 
   aplicarFiltro() {
     const f = this.filtro.toLowerCase();
-    this.filtrado = this.turnos.filter(t =>
-      (t.especialidad || '').toLowerCase().includes(f) ||
-      (t.paciente?.nombre || '').toLowerCase().includes(f)
-    );
+    this.filtrado = this.turnos.filter(t => {
+      let texto = [
+        t.especialidad,
+        t.paciente?.nombre,
+        t.paciente?.apellido,
+        t.fecha,
+        t.hora,
+        t.altura,
+        t.peso,
+        t.temperatura,
+        t.presion,
+        t.comentario_especialista,
+        t.estado
+      ]
+        .map(x => x ?? '')
+        .join(' ')
+        .toLowerCase();
+
+      if (t.extra_dinamico) {
+        const din = Object.entries(t.extra_dinamico)
+          .map(([clave, valor]) => `${clave} ${valor}`)
+          .join(' ')
+          .toLowerCase();
+        texto += ' ' + din;
+      }
+
+      return texto.includes(f);
+    });
   }
 
   async aceptar(turno: any) {
@@ -69,14 +93,6 @@ export class MisTurnosEspecialistaComponent implements OnInit {
     await this.ngOnInit();
   }
 
-  async finalizar(turno: any, diagnostico: string) {
-    await this.turnosService.actualizarTurno(turno.id, {
-      estado: 'realizado',
-      comentario_especialista: diagnostico
-    });
-    await this.ngOnInit();
-  }
-
   rechazarConMotivo(turno: any) {
     this.turnoParaRechazar = turno;
     this.turnoParaCancelar = null;
@@ -93,22 +109,13 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   }
 
   finalizarConComentario(turno: any) {
-    this.turnoParaFinalizar = turno;
+    this.turnoParaFinalizar = turno; 
     this.turnoResenaVisible = null;
-    this.diagnostico = '';
   }
 
   mostrarComentario(turno: any) {
     this.turnoResenaVisible = turno;
     this.turnoParaFinalizar = null;
-  }
-
-  async confirmarFinalizar(turno: any) {
-    if (this.diagnostico.trim()) {
-      await this.finalizar(turno, this.diagnostico);
-      this.turnoParaFinalizar = null;
-      this.diagnostico = '';
-    }
   }
 
   async confirmarCancelar(turno: any) {
@@ -133,6 +140,13 @@ export class MisTurnosEspecialistaComponent implements OnInit {
   cerrarRechazo() {
     this.turnoParaRechazar = null;
     this.motivoRechazo = '';
+  }
+
+  onCerrarFinalizarTurno(recargar: boolean) {
+    this.turnoParaFinalizar = null;
+    if (recargar) {
+      this.ngOnInit(); 
+    }
   }
 
 }

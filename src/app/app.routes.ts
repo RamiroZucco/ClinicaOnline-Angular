@@ -9,17 +9,19 @@ import { TurnosAdminComponent } from './components/turnos-admin/turnos-admin.com
 import { SolicitarTurnoComponent } from './components/solicitar-turno/solicitar-turno.component';
 import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
+import { MisPacientesComponent } from './components/mis-pacientes/mis-pacientes.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'registro', component: RegistroComponent },
-  { path: 'usuarios', component: UsuariosComponent },
-  { path: 'mis-turnos-paciente', component: MisTurnosPacienteComponent },
-  { path: 'mis-turnos-especialista', component: MisTurnosEspecialistaComponent },
-  { path: 'turnos-admin', component: TurnosAdminComponent },
-  { path: 'solicitar-turno', component: SolicitarTurnoComponent },
-  { path: 'mis-horarios', component: MisHorariosComponent },
-  { path: 'mi-perfil', component: MiPerfilComponent }
+  { path: '', component: HomeComponent, data: { animation: 'Home' } },
+  { path: 'home', component: HomeComponent, data: { animation: 'Home' } },
+  { path: 'login', component: LoginComponent, data: { animation: 'Login' } },
+  { path: 'registro', component: RegistroComponent, data: { animation: 'Registro' } },
+  { path: 'usuarios', component: UsuariosComponent, data: { animation: 'Usuarios' } },
+  { path: 'mis-turnos-paciente', component: MisTurnosPacienteComponent, data: { animation: 'TurnosPaciente' } },
+  { path: 'mis-turnos-especialista', component: MisTurnosEspecialistaComponent, data: { animation: 'TurnosEspecialista' } },
+  { path: 'turnos-admin', component: TurnosAdminComponent, data: { animation: 'TurnosAdmin' } },
+  { path: 'solicitar-turno', component: SolicitarTurnoComponent, data: { animation: 'SolicitarTurno' } },
+  { path: 'mis-horarios', component: MisHorariosComponent, data: { animation: 'MisHorarios' } },
+  { path: 'mi-perfil', component: MiPerfilComponent },
+  { path: 'mis-pacientes', component: MisPacientesComponent }
 ];

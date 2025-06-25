@@ -143,3 +143,22 @@
     padding: 1.5rem 1rem;
   }
 }
+
+.horarios-previos-list {
+  margin-top: 0.6rem;
+  background: #f7f7fc;
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1.04rem;
+  max-height: 210px;
+  overflow-y: auto;
+}
+.horario-previo-item {
+  margin-bottom: 0.4rem;
+  color: #3a386a;
+  font-size: 1.02rem;
+}
+.horario-previo-item i {
+  color: #6b7788;
+  font-size: 0.96rem;
+}

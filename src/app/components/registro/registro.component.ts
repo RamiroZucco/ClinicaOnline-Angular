@@ -4,13 +4,14 @@ import { UserService } from '../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
+import { RecaptchaModule } from 'ng-recaptcha';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.css'],
-  imports: [FormsModule, CommonModule, RouterModule]
+  imports: [FormsModule, CommonModule, RouterModule, RecaptchaModule]
 })
 export class RegistroComponent {
   tipo: string = '';
@@ -32,24 +33,14 @@ export class RegistroComponent {
   mostrarCampoOtraEspecialidad = false;
   nuevaEspecialidad = '';
 
-  captchaTexto: string = '';
-  captchaIngresado: string = '';
+  recaptchaResolved = false;   
+  recaptchaToken = '';           
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private router: Router
   ) {}
-
-  ngOnInit() {
-    this.generarCaptcha();
-  }
-
-
-  generarCaptcha() {
-    const posibles = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    this.captchaTexto = Array.from({ length: 5 }, () => posibles[Math.floor(Math.random() * posibles.length)]).join('');
-  }
 
   handleFileUpload(event: any, index: number) {
     const file = event.target.files[0];
@@ -67,6 +58,8 @@ export class RegistroComponent {
     this.mostrarCampoOtraEspecialidad = false;
     this.nuevaEspecialidad = '';
     this.especialidadesSeleccionadas = [];
+    this.recaptchaResolved = false;
+    this.recaptchaToken = '';
   }
 
   toggleEspecialidad(especialidad: string, event: any) {
@@ -88,14 +81,22 @@ export class RegistroComponent {
     }
   }
 
+  onCaptchaResolved(token: string | null) {
+    if (token) {
+      this.recaptchaResolved = true;
+      this.recaptchaToken = token;
+    } else {
+      this.recaptchaResolved = false;
+      this.recaptchaToken = '';
+    }
+  }
+
   async registrar() {
     this.mensaje = '';
     this.error = '';
 
-    if (this.captchaIngresado.trim().toUpperCase() !== this.captchaTexto) {
-      this.error = 'Captcha incorrecto. Intente nuevamente.';
-      this.generarCaptcha();
-      this.captchaIngresado = '';
+    if (!this.recaptchaResolved || !this.recaptchaToken) {
+      this.error = 'Debe completar la verificación captcha';
       return;
     }
 
@@ -148,6 +149,15 @@ export class RegistroComponent {
       if (this.tipoSeleccionado === 'paciente') {
         const { error: signInError } = await this.authService.signIn(this.form.email, this.form.password);
         if (signInError) throw signInError;
+        const usuarios = await this.userService.getAllUsers();
+        const usuarioDB = usuarios.find((u: any) => u.email === this.form.email);
+        if (usuarioDB) {
+          localStorage.setItem('loggedInUserRole', usuarioDB.rol);
+          localStorage.setItem('loggedInUser', usuarioDB.email);
+          localStorage.setItem('nombreUsuario', usuarioDB.nombre);
+          this.authService.setUserRole(usuarioDB.rol);
+        }
+
         this.router.navigateByUrl('/home');
       }
 
@@ -158,6 +168,8 @@ export class RegistroComponent {
       this.mostrarCampoOtraEspecialidad = false;
       this.nuevaEspecialidad = '';
       this.especialidadesSeleccionadas = [];
+      this.recaptchaResolved = false;
+      this.recaptchaToken = '';
     } catch (error: any) {
       this.error = error.message || 'Error al registrar usuario';
     }

@@ -1,0 +1,101 @@
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+
+<div class="finalizar-container">
+  <div class="finalizar-card">
+    <h2 class="finalizar-title">Finalizar Turno</h2>
+    <form (ngSubmit)="guardar()" #finalizarForm="ngForm" class="finalizar-form" autocomplete="off">
+
+      <label>Diagnóstico / Comentario *</label>
+      <textarea
+        class="form-control"
+        name="comentario"
+        [(ngModel)]="comentario"
+        required
+        [ngClass]="{'campo-error': mostrarErrores && !comentario}">
+      </textarea>
+      <div *ngIf="mostrarErrores && !comentario" class="text-danger">
+        Ingrese un comentario
+      </div>
+
+      <label>Altura (cm) *</label>
+      <input
+        class="form-control"
+        type="number"
+        name="altura"
+        [(ngModel)]="altura"
+        required
+        min="0"
+        max="300"
+        [ngClass]="{'campo-error': mostrarErrores && !esAlturaValida()}">
+      <div *ngIf="mostrarErrores && !esAlturaValida()" class="text-danger">
+        Ingrese una altura válida
+      </div>
+
+      <label>Peso (kg) *</label>
+      <input
+        class="form-control"
+        type="number"
+        name="peso"
+        [(ngModel)]="peso"
+        required
+        min="0"
+        max="700"
+        [ngClass]="{'campo-error': mostrarErrores && !esPesoValido()}">
+      <div *ngIf="mostrarErrores && !esPesoValido()" class="text-danger">
+        Ingrese un peso válido
+      </div>
+
+      <label>Temperatura (°C) *</label>
+      <input
+        class="form-control"
+        type="number"
+        name="temperatura"
+        [(ngModel)]="temperatura"
+        required
+        min="30"
+        max="50"
+        [ngClass]="{'campo-error': mostrarErrores && !esTemperaturaValida()}">
+      <div *ngIf="mostrarErrores && !esTemperaturaValida()" class="text-danger">
+        Ingrese una temperatura válida
+      </div>
+
+      <label>Presión (mmHg) *</label>
+      <input
+        class="form-control"
+        type="text"
+        name="presion"
+        [(ngModel)]="presion"
+        required
+        placeholder="Ej: 120/80"
+        [ngClass]="{'campo-error': mostrarErrores && !esPresionValida()}">
+      <div *ngIf="mostrarErrores && !esPresionValida()" class="text-danger">
+        Ingrese presión en formato S/D, ej: 120/80 (S: 50-250, D: 30-150)
+      </div>
+
+      <div *ngFor="let campo of camposDinamicos; let i = index" class="campos-dinamicos-flex">
+        <div class="dinamico-par">
+          <label>Clave {{ i + 1 }}</label>
+          <input class="form-control" [(ngModel)]="campo.clave" [name]="'clave' + i">
+        </div>
+        <div class="dinamico-par">
+          <label>Valor {{ i + 1 }}</label>
+          <input class="form-control" [(ngModel)]="campo.valor" [name]="'valor' + i">
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn-agregar"
+        (click)="agregarCampoExtra()"
+        [disabled]="camposDinamicos.length >= 3">
+        + Campo dinámico
+      </button>
+
+      <div *ngIf="successMsg" class="alert alert-success text-center mt-2">{{ successMsg }}</div>
+
+      <div class="btns-flex">
+        <button type="submit" class="btn submit-btn w-100">Guardar y Finalizar</button>
+        <button type="button" class="btn btn-outline-dark volver-btn mt-2" (click)="cerrar()">Cerrar</button>
+      </div>
+    </form>
+  </div>
+</div>

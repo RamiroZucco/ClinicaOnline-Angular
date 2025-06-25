@@ -2,7 +2,19 @@
   <div class="solicitar-turno-card">
     <h2 class="solicitar-title">Solicitar Turno</h2>
 
-    <div class="form-section" *ngIf="!especialidadSeleccionada">
+    <div class="form-section" *ngIf="esAdmin && !pacienteSeleccionado">
+      <label class="form-label">Seleccionar Paciente</label>
+      <div class="pacientes-rect-grid">
+        <button *ngFor="let pac of pacientes"
+          class="btn-rect paciente"
+          (click)="seleccionarPaciente(pac)">
+          <div class="nombre-pac">{{ pac.nombre }} {{ pac.apellido }}</div>
+          <img [src]="pac.imagen1 || 'assets/default.jpg'" alt="{{ pac.nombre }}" />
+        </button>
+      </div>
+    </div>
+
+    <div class="form-section" *ngIf="(!esAdmin || pacienteSeleccionado) && !especialidadSeleccionada">
       <label class="form-label">Seleccionar Especialidad</label>
       <div class="especialidades-rect-grid">
         <button *ngFor="let esp of especialidades"
@@ -13,6 +25,7 @@
           <div class="nombre-esp">{{ esp.nombre }}</div>
         </button>
       </div>
+      <button *ngIf="esAdmin && pacienteSeleccionado" class="volver-btn" (click)="pacienteSeleccionado = null;">Volver</button>
     </div>
 
     <div class="form-section" *ngIf="especialidadSeleccionada && !especialistaSeleccionado">

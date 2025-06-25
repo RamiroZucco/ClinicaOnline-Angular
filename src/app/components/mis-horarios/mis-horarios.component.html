@@ -23,6 +23,17 @@
       </div>
     </div>
 
+    <div class="horarios-form-section" *ngIf="horariosGuardados && horariosGuardados.length > 0">
+      <label class="horarios-label"><strong>Tus horarios ya establecidos:</strong></label>
+      <div class="horarios-previos-list">
+        <div *ngFor="let h of horariosGuardados" class="horario-previo-item">
+          <span>
+            <b>{{ h.dia }}:</b> {{ h.desde }} - <i>{{ h.especialidad }}</i>
+          </span>
+        </div>
+      </div>
+    </div>
+
     <button class="btn-guardar-horarios" (click)="guardar()">Guardar Todo</button>
   </div>
 </div>
