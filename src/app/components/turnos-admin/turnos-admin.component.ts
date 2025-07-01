@@ -3,13 +3,15 @@ import { TurnosService } from '../../services/turnos.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FechaFormatoEsPipe } from '../../pipes/fecha-formato-es.pipe';
+import { HighlightEstadoDirective } from '../../directives/highlight-estado.directive';
 
 @Component({
   selector: 'app-turnos-admin',
   standalone: true,
   templateUrl: './turnos-admin.component.html',
   styleUrls: ['./turnos-admin.component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, FechaFormatoEsPipe,HighlightEstadoDirective]
 })
 export class TurnosAdminComponent implements OnInit {
   turnos: any[] = [];

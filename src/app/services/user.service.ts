@@ -47,4 +47,15 @@ export class UserService {
       .eq('id', id);
     if (error) throw error;
   }
+
+  async logIngreso(usuario: any) {
+    const { id, email } = usuario;
+    const { error } = await this.supabaseService.supabase
+      .from('logs_ingresos')
+      .insert([{ usuario_id: id, email }]);
+    if (error) throw error;
+  }
+
 }
+
+

@@ -22,17 +22,22 @@
           {{ turno.paciente?.apellido || '' }}
         </p>
         <p><strong>Fecha:</strong>
-          {{ turno.fecha | date: 'fullDate' }} - {{ turno.hora }}
+          {{ turno.fecha | fechaFormatoEs }} - {{ turno.hora }}
         </p>
         <p>
           <strong>Estado:</strong>
-          <span [ngClass]="{
-            'estado-pendiente': turno.estado === 'pendiente',
-            'estado-aceptado': turno.estado === 'aceptado',
-            'estado-realizado': turno.estado === 'realizado',
-            'estado-cancelado': turno.estado === 'cancelado',
-            'estado-rechazado': turno.estado === 'rechazado'
-          }">{{ turno.estado | titlecase }}</span>
+          <span
+            [ngClass]="{
+              'estado-pendiente': turno.estado === 'pendiente',
+              'estado-aceptado': turno.estado === 'aceptado',
+              'estado-realizado': turno.estado === 'realizado',
+              'estado-cancelado': turno.estado === 'cancelado',
+              'estado-rechazado': turno.estado === 'rechazado'
+            }"
+            [highlightEstado]="turno.estado"
+          >
+            {{ turno.estado | titlecase }}
+          </span>
         </p>
 
         <div class="turno-admin-acciones">

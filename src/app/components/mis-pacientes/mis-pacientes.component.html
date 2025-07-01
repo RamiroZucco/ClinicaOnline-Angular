@@ -50,7 +50,7 @@
                 <td>{{ t.fecha }}</td>
                 <td>{{ t.hora }}</td>
                 <td>{{ t.especialidad }}</td>
-                <td>{{ t.altura ?? '-' }}</td>
+                <td>{{ t.altura | alturaMetros}}</td>
                 <td>{{ t.peso ?? '-' }}</td>
                 <td>{{ t.temperatura ?? '-' }}</td>
                 <td>{{ t.presion ?? '-' }}</td>

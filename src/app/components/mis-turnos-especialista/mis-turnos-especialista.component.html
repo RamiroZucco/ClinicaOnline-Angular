@@ -18,7 +18,7 @@
       <div class="turno-datos">
         <p><strong>Paciente:</strong> {{ turno.paciente?.nombre }} {{ turno.paciente?.apellido }}</p>
         <p><strong>Especialidad:</strong> {{ turno.especialidad }}</p>
-        <p><strong>Fecha:</strong> {{ turno.fecha | date: 'fullDate' }} - {{ turno.hora }}</p>
+        <p><strong>Fecha:</strong> {{ turno.fecha | fechaFormatoEs }} - {{ turno.hora }}</p>
         <p>
           <strong>Estado:</strong>
           <span [ngClass]="{

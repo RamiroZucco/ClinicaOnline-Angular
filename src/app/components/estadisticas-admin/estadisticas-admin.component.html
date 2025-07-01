@@ -1,0 +1,140 @@
+<div class="estadisticas-container">
+  <div class="estadisticas-card">
+    <h2 class="titulo">Estadísticas y Reportes</h2>
+    <nav class="estadisticas-tabs">
+      <button class="tab-btn" [class.active]="tabSeleccionado==='log'" (click)="seleccionarTab('log')">Log de ingresos</button>
+      <button class="tab-btn" [class.active]="tabSeleccionado==='turnos_especialidad'" (click)="seleccionarTab('turnos_especialidad')">Turnos por especialidad</button>
+      <button class="tab-btn" [class.active]="tabSeleccionado==='turnos_dia'" (click)="seleccionarTab('turnos_dia')">Turnos por día</button>
+      <button class="tab-btn" [class.active]="tabSeleccionado==='turnos_medico'" (click)="seleccionarTab('turnos_medico')">Turnos por médico</button>
+      <button class="tab-btn" [class.active]="tabSeleccionado==='turnos_finalizados_medico'" (click)="seleccionarTab('turnos_finalizados_medico')">Turnos finalizados por médico</button>
+    </nav>
+
+    <div *ngIf="tabSeleccionado==='log'" class="log-ingresos-section">
+      <h3 class="subtitulo">Log de ingresos al sistema</h3>
+      <div class="acciones-descarga">
+        <button class="btn btn-rz verde" (click)="descargarLogsExcel()">Generar Excel</button>
+        <button class="btn btn-rz azul" (click)="descargarLogsPDF()">Generar PDF</button>
+      </div>
+      <table class="tabla-logs" *ngIf="logs.length" #logTableRef>
+        <thead>
+          <tr>
+            <th>Correo</th>
+            <th>Fecha y hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let log of logs">
+            <td>{{ log.email }}</td>
+            <td>{{ log.fecha | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="tabSeleccionado==='turnos_especialidad'" class="turnos-especialidad-section">
+      <div class="acciones-descarga">
+        <button class="btn btn-rz verde" (click)="descargarTurnosEspecialidadExcel()">Generar Excel</button>
+        <button class="btn btn-rz azul" (click)="descargarTurnosEspecialidadPDF()">Generar PDF</button>
+      </div>
+      <div *ngIf="especialidadLabels.length" #especialidadChartRef>
+        <canvas baseChart
+          [data]="barChartData"
+          [options]="barChartOptions"
+          [type]="barChartType"
+          style="max-width:900px; width:100%; height:380px; margin:0 auto; background:#fff; border-radius:16px; box-shadow: 0 2px 14px rgba(9,15,82,0.08);">
+        </canvas>
+      </div>
+      <div *ngIf="!cargandoTurnosEspecialidad && !especialidadLabels.length" class="text-muted text-center">
+        No hay datos de turnos.
+      </div>
+    </div>
+
+    <div *ngIf="tabSeleccionado==='turnos_dia'" class="turnos-dia-section">
+      <div class="acciones-descarga">
+        <button class="btn btn-rz verde" (click)="descargarTurnosPorDiaExcel()">Generar Excel</button>
+        <button class="btn btn-rz azul" (click)="descargarTurnosPorDiaPDF()">Generar PDF</button>
+      </div>
+      <div *ngIf="diaLabels.length" #diaChartRef>
+        <canvas baseChart
+          [data]="lineChartData"
+          [options]="lineChartOptions"
+          [type]="lineChartType"
+          style="max-width:900px; width:100%; height:380px; margin:0 auto; background:#fff; border-radius:16px; box-shadow: 0 2px 14px rgba(9,15,82,0.08);">
+        </canvas>
+      </div>
+      <div *ngIf="!cargandoTurnosPorDia && !diaLabels.length" class="text-muted text-center">
+        No hay datos de turnos por día.
+      </div>
+    </div>
+    
+    <div *ngIf="tabSeleccionado==='turnos_medico'" class="turnos-medico-section">
+      <h3 class="subtitulo">Cantidad de turnos solicitados por médico</h3>
+      <form class="filtros-fechas" (ngSubmit)="cargarTurnosPorMedico()" style="margin-bottom:1.3rem; display:flex; gap:1.5rem; align-items:end;">
+        <mat-form-field appearance="outline" class="campo-fecha">
+          <mat-label>Desde</mat-label>
+          <input matInput [matDatepicker]="pickerDesde" [(ngModel)]="fechaDesde" name="fechaDesde" placeholder="Desde">
+          <mat-datepicker-toggle matSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDesde></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="campo-fecha">
+          <mat-label>Hasta</mat-label>
+          <input matInput [matDatepicker]="pickerHasta" [(ngModel)]="fechaHasta" name="fechaHasta" placeholder="Hasta">
+          <mat-datepicker-toggle matSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+          <mat-datepicker #pickerHasta></mat-datepicker>
+        </mat-form-field>
+        <button type="submit" class="btn btn-rz gris">Filtrar</button>
+        <button type="button" class="btn btn-rz gris" (click)="fechaDesde=null; fechaHasta=null; cargarTurnosPorMedico();">Limpiar</button>
+      </form>
+      <div class="acciones-descarga">
+        <button class="btn btn-rz verde" (click)="descargarTurnosMedicoExcel()">Generar Excel</button>
+        <button class="btn btn-rz azul" (click)="descargarTurnosMedicoPDF()">Generar PDF</button>
+      </div>
+      <div *ngIf="medicoLabels.length" #medicoChartRef>
+        <canvas baseChart
+          [data]="pieChartDataMedico"
+          [options]="pieChartOptionsMedico"
+          [type]="pieChartTypeMedico"
+          style="max-width:400px; width:100%; height:350px; margin:0 auto; background:#fff; border-radius:16px; box-shadow: 0 2px 14px rgba(9,15,82,0.08);">
+        </canvas>
+      </div>
+      <div *ngIf="!cargandoTurnosPorMedico && !medicoLabels.length" class="text-muted text-center">
+        No hay datos en ese lapso.
+      </div>
+    </div>
+
+    <div *ngIf="tabSeleccionado==='turnos_finalizados_medico'" class="turnos-medico-section">
+      <h3 class="subtitulo">Cantidad de turnos finalizados por médico</h3>
+      <form class="filtros-fechas" (ngSubmit)="cargarTurnosFinalizadosPorMedico()" style="margin-bottom:1.3rem; display:flex; gap:1.5rem; align-items:end;">
+        <mat-form-field appearance="outline" class="campo-fecha">
+          <mat-label>Desde</mat-label>
+          <input matInput [matDatepicker]="pickerDesdeFinalizados" [(ngModel)]="fechaDesdeFinalizados" name="fechaDesdeFinalizados" placeholder="Desde">
+          <mat-datepicker-toggle matSuffix [for]="pickerDesdeFinalizados"></mat-datepicker-toggle>
+          <mat-datepicker #pickerDesdeFinalizados></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="campo-fecha">
+          <mat-label>Hasta</mat-label>
+          <input matInput [matDatepicker]="pickerHastaFinalizados" [(ngModel)]="fechaHastaFinalizados" name="fechaHastaFinalizados" placeholder="Hasta">
+          <mat-datepicker-toggle matSuffix [for]="pickerHastaFinalizados"></mat-datepicker-toggle>
+          <mat-datepicker #pickerHastaFinalizados></mat-datepicker>
+        </mat-form-field>
+        <button type="submit" class="btn btn-rz gris">Filtrar</button>
+        <button type="button" class="btn btn-rz gris" (click)="fechaDesdeFinalizados=null; fechaHastaFinalizados=null; cargarTurnosFinalizadosPorMedico();">Limpiar</button>
+      </form>
+      <div class="acciones-descarga">
+        <button class="btn btn-rz verde" (click)="descargarTurnosFinalizadosMedicoExcel()">Generar Excel</button>
+        <button class="btn btn-rz azul" (click)="descargarTurnosFinalizadosMedicoPDF()">Generar PDF</button>
+      </div>
+      <div *ngIf="medicoLabelsFinalizados.length" #medicoFinalizadosChartRef>
+        <canvas baseChart
+          [data]="doughnutChartDataFinalizados"
+          [options]="doughnutChartOptionsFinalizados"
+          [type]="doughnutChartTypeFinalizados"
+          style="max-width:500px; width:100%; height:370px; margin:0 auto; background:#fff; border-radius:16px; box-shadow: 0 2px 14px rgba(9,15,82,0.08);">
+        </canvas>
+      </div>
+      <div *ngIf="!cargandoTurnosFinalizadosMedico && !medicoLabelsFinalizados.length" class="text-muted text-center">
+        No hay datos en ese lapso.
+      </div>
+    </div>
+  </div>
+</div>

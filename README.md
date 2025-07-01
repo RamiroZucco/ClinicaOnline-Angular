@@ -1,59 +1,92 @@
-# ClinicaOnline
+# Clínica Online RZ
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+![Logo](src\assets\logo.png)
 
-## Development server
+## Descripción general
 
-To start a local development server, run:
+Clínica Online RZ es una aplicación para digitalizar y optimizar la gestión de una clínica médica. Permite que administradores, especialistas y pacientes puedan interactuar fácilmente, gestionando turnos, pacientes, usuarios y accediendo a informes de gestión y estadísticas en tiempo real.
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Pantallas principales
 
-## Code scaffolding
+### **Pantalla de Inicio**
+![Home](src\assets\rm\home.png)
+Home de la clínica con una breve descripción de la misma.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+### **Pantalla de Login**
+![Pantalla de login](src\assets\rm\login.png)
+Formulario de ingreso de la app, con validaciones, botones de acceso rápido y con la opción de acceder a la página para registrarse.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
+### **Pantalla de Registro**
+![Pantalla de registro](src\assets\rm\registro.png)
+![Pantalla de registro](src\assets\rm\registro-paciente.png)
+![Pantalla de registro](src\assets\rm\registro-paciente-2.png)
+![Pantalla de registro](src\assets\rm\registro-especialista.png)
+![Pantalla de registro](src\assets\rm\registro-especialista-2.png)
+Formulario de registro de la app, permite elegir el rol del usuario, en base a eso me muestra el form con los campos correspondientes.
 
-## Building
+---
 
-To build the project run:
+### **Pantalla de pacientes (Especialista)**
+![Mis pacientes](src\assets\rm\mis-pacientes.png)
+En la pantalla se ven las cards de los pacientes, con sus datos e información de sus últimos 3 turnos (al clickearlas vemos su historia clínica).
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### **Pantalla de los horarios (Especialista)**
+![Mis horarios](src\assets\rm\mis-horarios.png)
+En esta sección el especialista puede asignar sus horarios.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### **Gestión de Turnos (Especialista)**
+![Mis turnos especialista](src\assets\rm\mis-turnos-especialista.png)
+En esta página el especialista puede gestionar los turnos de sus pacientes.
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
+### **Mi Perfil**
+![Mi perfil](src\assets\rm\mi-perfil.png)
+En esta sección el paciente puede ver los datos de su perfil y su historia clínica. Los especialistas y admins también tienen esta sección.
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+### **Mis turnos (Paciente)**
+![Mis turnos pacientes](src\assets\rm\mis-turnos-paciente.png)
+En esta página el paciente puede ver sus turnos con la información de los mismos y el estado de cada uno.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+### **Solicitar Turno (Paciente)**
+![Solicitar turno](src\assets\rm\solicitar-turno.png)
+![Solicitar turno](src\assets\rm\solicitar-turno-2.png)
+![Solicitar turno](src\assets\rm\solicitar-turno-3.png)
+En esta sección el paciente puede solicitar un turno eligiendo especialidad, especialista, fecha y horario.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+### **Usuarios (Admin)**
+![Usuarios](src\assets\rm\usuarios.png)
+![Usuarios](src\assets\rm\usuarios-2.png)
+En esta página el admin puede ver todos los usuarios registrados y al clickear uno se puede ver su información. Desde aca el admin puede habilitar o deshabilitar especialistas y además registrar un nuevo usuario.
+
+---
+
+## Estadísticas (Admin)
+![Estadisticas](src\assets\rm\estadisticas.png)
+![Estadisticas](src\assets\rm\estadisticas-2.png)
+![Estadisticas](src\assets\rm\estadisticas-3.png)
+![Estadisticas](src\assets\rm\estadisticas-4.png)
+En esta sección se pueden ver distintos informes con gráficos acerca de estadísticas de la clínica.
+
+---
+
+## Creada por: Ramiro Zucco Valizia
+
+---
+

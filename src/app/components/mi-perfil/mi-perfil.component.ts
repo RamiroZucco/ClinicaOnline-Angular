@@ -6,12 +6,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import { AlturaMetrosPipe } from '../../pipes/altura-metros.pipe';
 
 @Component({
   selector: 'app-mi-perfil',
   templateUrl: './mi-perfil.component.html',
   styleUrls: ['./mi-perfil.component.css'],
-  imports: [CommonModule,FormsModule]
+  imports: [CommonModule,FormsModule,AlturaMetrosPipe]
 })
 export class MiPerfilComponent implements OnInit {
   usuario: any;

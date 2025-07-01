@@ -9,13 +9,16 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { TurnosService } from '../../services/turnos.service';
+import { CapitalizePipe } from '../../pipes/capitalize.pipe';
+import { UsuarioHoverDirective } from '../../directives/usuario-hover.directive';
+import { ValidaCampoDirective } from '../../directives/valida-campo.directive';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
   templateUrl: './usuarios.component.html',
   styleUrls: ['./usuarios.component.css'],
-  imports: [CommonModule, RouterModule, FormsModule, RecaptchaModule]
+  imports: [CommonModule, RouterModule, FormsModule, RecaptchaModule,CapitalizePipe,UsuarioHoverDirective,ValidaCampoDirective]
 })
 export class UsuariosComponent implements OnInit {
   usuarios: any[] = [];
@@ -283,6 +286,10 @@ export class UsuariosComponent implements OnInit {
   alClickearUsuario(usuario: any) {
     this.seleccionar(usuario);
     this.descargarExcelUsuario(usuario);
+  }
+
+  getImagenesUsuario(usuario: any): string[] {
+    return [usuario.imagen1, usuario.imagen2].filter(i => !!i);
   }
 
 }

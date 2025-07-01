@@ -90,6 +90,8 @@ export class LoginComponent {
         return;
       }
 
+      await this.userService.logIngreso(usuarioDB);
+
       localStorage.setItem('loggedInUserRole', usuarioDB.rol);
       localStorage.setItem('loggedInUser', usuarioDB.email);
       localStorage.setItem('nombreUsuario', usuarioDB.nombre);

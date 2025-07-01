@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { TurnosService } from '../../services/turnos.service';
 import { FinalizarTurnoComponent } from '../finalizar-turno/finalizar-turno.component';
+import { FechaFormatoEsPipe } from '../../pipes/fecha-formato-es.pipe';
 
 @Component({
   selector: 'app-mis-turnos-especialista',
   standalone: true,
   templateUrl: './mis-turnos-especialista.component.html',
   styleUrls: ['./mis-turnos-especialista.component.css'],
-  imports: [CommonModule, FormsModule, FinalizarTurnoComponent]
+  imports: [CommonModule, FormsModule, FinalizarTurnoComponent, FechaFormatoEsPipe]
 })
 export class MisTurnosEspecialistaComponent implements OnInit {
   turnos: any[] = [];

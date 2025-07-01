@@ -1,0 +1,139 @@
+:host {
+  display: block;
+  background: linear-gradient(to bottom right, #e8eaf6, #ede7f6);
+  min-height: 100vh;
+}
+.estadisticas-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 220px;
+}
+.estadisticas-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.6rem 2.2rem;
+  box-shadow: 0 8px 30px rgba(9,15,82,0.08);
+}
+.titulo {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: #090f52;
+}
+.estadisticas-tabs {
+  display: flex;
+  justify-content: left;
+  gap: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+.tab-btn {
+  background: #e8eaf6;
+  color: #090f52;
+  border: 1.6px solid #cfd8dc;
+  font-weight: 700;
+  border-radius: 25px;
+  padding: 0.55rem 1.7rem;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 10px rgba(51, 154, 51, 0.07);
+  cursor: pointer;
+  transition: filter 0.17s, transform 0.16s;
+}
+.tab-btn.active {
+  filter: brightness(0.9);
+}
+.subtitulo {
+  font-size: 1.2rem;
+  color: #183058;
+  font-weight: 700;
+  margin-bottom: 1.4rem;
+}
+.tabla-logs {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.3rem;
+  background: #f7f7fa;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.tabla-logs th, .tabla-logs td {
+  padding: 0.75rem 1.3rem;
+  text-align: left;
+  border-bottom: 1px solid #e3e6ee;
+}
+.tabla-logs th {
+  background: #e4e6fa;
+  color: #090f52;
+  font-weight: 700;
+  font-size: 1.07rem;
+}
+.tabla-logs tr:last-child td {
+  border-bottom: none;
+}
+.spinner {
+  color: #6b7788;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 1.1rem;
+  text-align: center;
+}
+.turnos-especialidad-section {
+  margin-top: 2.3rem;
+  text-align: center;
+}
+
+.filtros-fechas {
+  margin-bottom: 1.3rem;
+  display: flex;
+  gap: 1.2rem;
+  align-items: end; 
+}
+
+.campo-fecha {
+  min-width: 220px;
+}
+
+.btn-rz {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 1.06rem;
+  border: none;
+  border-radius: 25px;
+  padding: 0.53rem 1.5rem;
+  min-width: 115px;
+  transition: all 0.18s;
+  box-shadow: 0 2px 7px rgba(9,15,82,0.08);
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.btn-rz.azul {
+  background: linear-gradient(135deg, #680303, #db0b0b);
+  color: #fff;
+}
+
+.btn-rz.azul:hover {
+  filter: brightness(1.08);
+}
+
+.btn-rz.verde {
+  background: linear-gradient(135deg, #114404, #0db941);
+  color: #fff;
+  margin-right: 2rem;
+}
+
+.btn-rz.azul:hover {
+  filter: brightness(1.08);
+}
+
+.btn-rz.gris {
+  background: #e8eaf6;
+  color: #090f52;
+  border: 1.6px solid #cfd8dc;
+}
+
+.btn-rz.gris:hover {
+  background: #dadff5;
+}
+

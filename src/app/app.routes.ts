@@ -10,6 +10,7 @@ import { SolicitarTurnoComponent } from './components/solicitar-turno/solicitar-
 import { MisHorariosComponent } from './components/mis-horarios/mis-horarios.component';
 import { MiPerfilComponent } from './components/mi-perfil/mi-perfil.component';
 import { MisPacientesComponent } from './components/mis-pacientes/mis-pacientes.component';
+import { EstadisticasAdminComponent } from './components/estadisticas-admin/estadisticas-admin.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, data: { animation: 'Home' } },
@@ -23,5 +24,6 @@ export const routes: Routes = [
   { path: 'solicitar-turno', component: SolicitarTurnoComponent, data: { animation: 'SolicitarTurno' } },
   { path: 'mis-horarios', component: MisHorariosComponent, data: { animation: 'MisHorarios' } },
   { path: 'mi-perfil', component: MiPerfilComponent },
-  { path: 'mis-pacientes', component: MisPacientesComponent }
+  { path: 'mis-pacientes', component: MisPacientesComponent },
+  { path: 'estadisticas-admin', component: EstadisticasAdminComponent}
 ];

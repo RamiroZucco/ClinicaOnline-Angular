@@ -3,13 +3,14 @@ import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 import { TurnosService } from '../../services/turnos.service';
 import { CommonModule } from '@angular/common';
+import { AlturaMetrosPipe } from '../../pipes/altura-metros.pipe';
 
 @Component({
   selector: 'app-mis-pacientes',
   templateUrl: './mis-pacientes.component.html',
   styleUrls: ['./mis-pacientes.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule,AlturaMetrosPipe]
 })
 export class MisPacientesComponent implements OnInit {
   pacientes: any[] = [];

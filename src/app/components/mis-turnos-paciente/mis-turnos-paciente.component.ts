@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TurnosService } from '../../services/turnos.service';
 import { AuthService } from '../../services/auth.service';
+import { FechaFormatoEsPipe } from '../../pipes/fecha-formato-es.pipe';
 
 @Component({
   selector: 'app-mis-turnos-paciente',
   standalone: true,
   templateUrl: './mis-turnos-paciente.component.html',
   styleUrls: ['./mis-turnos-paciente.component.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, FechaFormatoEsPipe]
 })
 export class MisTurnosPacienteComponent implements OnInit {
   turnos: any[] = [];
