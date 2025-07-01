@@ -1,7 +1,5 @@
 # Clínica Online RZ
 
-![Logo](screenshots/logo.png)
-
 ## Descripción general
 
 Clínica Online RZ es una aplicación para digitalizar y optimizar la gestión de una clínica médica. Permite que administradores, especialistas y pacientes puedan interactuar fácilmente, gestionando turnos, pacientes, usuarios y accediendo a informes de gestión y estadísticas en tiempo real.
